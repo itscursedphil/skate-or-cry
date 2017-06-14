@@ -5,7 +5,14 @@ import NotificationBar from '../notifications/notifications';
 const Layout = props => (
   <div>
     <Menu />
-    {props.children}
+    <div
+      style={{
+        marginTop: 64 + 'px',
+        marginBottom: 16 + 'px'
+      }}
+    >
+      {props.children}
+    </div>
     <NotificationBar />
   </div>
 );

@@ -1,5 +1,7 @@
 import {
   TOGGLE_NOTIFICATION,
+  OPEN_NOTIFICATION,
+  CLOSE_NOTIFICATION,
   SET_NOTIFICATION_MESSAGE
 } from './notificationsActions';
 
@@ -14,6 +16,18 @@ const notifications = (state = initialState, action) => {
       return {
         ...state,
         open: !state.open
+      };
+
+    case OPEN_NOTIFICATION:
+      return {
+        ...state,
+        open: true
+      };
+
+    case CLOSE_NOTIFICATION:
+      return {
+        ...state,
+        open: false
       };
 
     case SET_NOTIFICATION_MESSAGE:

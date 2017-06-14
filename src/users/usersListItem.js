@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem } from 'material-ui/List';
-import IconChecked from 'material-ui/svg-icons/toggle/check-box';
-import IconUnchecked
-  from 'material-ui/svg-icons/toggle/check-box-outline-blank';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
+import Checkbox from 'material-ui/Checkbox';
 
 const UsersListItem = (
   {
@@ -23,9 +21,8 @@ const UsersListItem = (
         onClick={onClick}
         primaryText={nickName}
         secondaryText={fullName}
-        leftAvatar={<Avatar src={avatar} />}
-        rightIcon={checked ? <IconChecked /> : <IconUnchecked />}
-        // rightCheckbox={<Checkbox />}
+        rightAvatar={<Avatar src={avatar} />}
+        leftCheckbox={<Checkbox checked={checked} />}
       />
       {divider && <Divider />}
     </div>

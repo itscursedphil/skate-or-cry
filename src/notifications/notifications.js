@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toggleNotification } from './notificationsActions';
+import { closeNotification } from './notificationsActions';
 import Snackbar from 'material-ui/Snackbar';
 
 const Notification = ({ open = false, message = '', onClose }) => (
@@ -29,7 +29,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onClose: () => {
-      dispatch(toggleNotification());
+      dispatch(closeNotification());
     }
   };
 };
