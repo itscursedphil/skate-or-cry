@@ -7,7 +7,7 @@ import Categories from './categories/categories.js';
 import Tasks from './tasks/tasks.js';
 import Results from './results/results.js';
 
-const App = props => (
+const App = props =>
   <Router>
     <Layout>
       <Route exact path="/" component={Home} />
@@ -16,7 +16,6 @@ const App = props => (
       <Route path="/tasks" component={Tasks} />
       <Route path="/results" component={Results} />
     </Layout>
-  </Router>
-);
+  </Router>;
 
 export default App;
