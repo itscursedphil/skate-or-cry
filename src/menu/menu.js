@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentClear from 'material-ui/svg-icons/content/clear';
 import IconButton from 'material-ui/IconButton';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 import ActionFace from 'material-ui/svg-icons/action/face';
 import ImageCollections from 'material-ui/svg-icons/image/collections';
 import EditorList from 'material-ui/svg-icons/editor/format-list-bulleted';
 import SocialCake from 'material-ui/svg-icons/social/cake';
+import CreditCard from 'material-ui/svg-icons/action/credit-card';
+import MenuItem from './menuItem';
 
 export default class Menu extends Component {
   constructor(props) {
@@ -58,6 +55,7 @@ export default class Menu extends Component {
     if (/categories/.test(page)) title = 'Kategorien';
     if (/tasks/.test(page)) title = 'Aufgaben';
     if (/results/.test(page)) title = 'Ergebnisse';
+    if (/account/.test(page)) title = 'Konto';
 
     return (
       <div>
@@ -72,7 +70,6 @@ export default class Menu extends Component {
                   <NavigationMenu />
                 </IconButton>
           }
-          // iconClassNameRight={open ?  : "muidocs-icon-navigation-expand-more"}
           onLeftIconButtonTouchTap={this.handleToggle}
           zDepth={2}
           style={{
@@ -84,7 +81,6 @@ export default class Menu extends Component {
         />
         <Drawer
           docked={false}
-          // width={100 + '%'}
           open={open}
           onRequestChange={open => this.setState({ open })}
         >
@@ -93,45 +89,40 @@ export default class Menu extends Component {
               marginTop: 64 + 'px'
             }}
           >
-            <Link to="/users">
-              <MenuItem
-                onTouchTap={this.handleClose}
-                leftIcon={<ActionFace />}
-                rightIcon={<ChevronRight />}
-              >
-                Benutzer
-              </MenuItem>
-            </Link>
+            <MenuItem
+              link="/users"
+              label="Benutzer"
+              onClick={this.handleClose}
+              icon={<ActionFace />}
+            />
             <Divider />
-            <Link to="/categories">
-              <MenuItem
-                onTouchTap={this.handleClose}
-                leftIcon={<ImageCollections />}
-                rightIcon={<ChevronRight />}
-              >
-                Kategorien
-              </MenuItem>
-            </Link>
+            <MenuItem
+              link="/categories"
+              label="Kategorien"
+              onClick={this.handleClose}
+              icon={<ImageCollections />}
+            />
             <Divider />
-            <Link to="/tasks">
-              <MenuItem
-                onTouchTap={this.handleClose}
-                leftIcon={<EditorList />}
-                rightIcon={<ChevronRight />}
-              >
-                Aufgaben
-              </MenuItem>
-            </Link>
+            <MenuItem
+              link="/tasks"
+              label="Aufgaben"
+              onClick={this.handleClose}
+              icon={<EditorList />}
+            />
             <Divider />
-            <Link to="/results">
-              <MenuItem
-                onTouchTap={this.handleClose}
-                leftIcon={<SocialCake />}
-                rightIcon={<ChevronRight />}
-              >
-                Ergbnisse
-              </MenuItem>
-            </Link>
+            <MenuItem
+              link="/account"
+              label="Konto"
+              onClick={this.handleClose}
+              icon={<CreditCard />}
+            />
+            <Divider />
+            <MenuItem
+              link="/results"
+              label="Ergebnisse"
+              onClick={this.handleClose}
+              icon={<SocialCake />}
+            />
           </div>
         </Drawer>
       </div>

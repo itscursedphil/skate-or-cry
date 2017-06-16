@@ -2,15 +2,9 @@ import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import RaisedButton from 'material-ui/RaisedButton';
 import { List } from 'material-ui/List';
 import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import IconChecked from 'material-ui/svg-icons/toggle/check-box';
-import IconUnchecked
-  from 'material-ui/svg-icons/toggle/check-box-outline-blank';
-import RandomSwearWord from '../ui/randomSwearWord';
 import Checkbox from 'material-ui/Checkbox';
 import {
   setUserTaskCompleted,
@@ -19,51 +13,21 @@ import {
 import { setTasksFilter } from './tasksActions';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import PageWarning from '../ui/pageWarning';
 
-const TasksPage = (
-  {
-    tasks,
-    user,
-    activeUserId,
-    activeCategoryId,
-    onTaskClicked,
-    filter,
-    setFilter
-  }
-) => {
+const TasksPage = ({
+  tasks,
+  user,
+  activeUserId,
+  activeCategoryId,
+  onTaskClicked,
+  filter,
+  setFilter
+}) => {
   if (activeUserId < 0) {
-    return (
-      <Container>
-        <Row>
-          <Col>
-            <p>
-              Eh du
-              {' '}
-              <RandomSwearWord />
-              , such mal lieber erstmal 'nen Benutzer aus!
-            </p>
-            <Link to="/users">
-              <RaisedButton label="Zur Auswahl" primary fullWidth />
-            </Link>
-          </Col>
-        </Row>
-      </Container>
-    );
+    return <PageWarning users />;
   } else if (activeCategoryId < 0) {
-    return (
-      <Container>
-        <Row>
-          <Col>
-            <p>
-              Du musst erst 'ne Kategorie auswählen, du <RandomSwearWord />!
-            </p>
-            <Link to="/categories">
-              <RaisedButton label="Zur Auswahl" primary fullWidth />
-            </Link>
-          </Col>
-        </Row>
-      </Container>
-    );
+    return <PageWarning categories />;
   } else {
     return (
       <Container>
@@ -90,9 +54,8 @@ const TasksPage = (
             }}
           >
             {tasks.map(task => {
-              const isCompleted = user.completed.filter(
-                c => c.id === task.id
-              ).length > 0;
+              const isCompleted =
+                user.completed.filter(c => c.id === task.id).length > 0;
 
               if (
                 filter === 'all' ||
@@ -172,8 +135,8 @@ const mapStateToProps = state => {
     tasks: state.tasks.all.filter(
       task => task.catId === state.categories.active
     ),
-    user: state.users.all.filter(user => user.id === state.users.active)[0] || {
-    },
+    user:
+      state.users.all.filter(user => user.id === state.users.active)[0] || {},
     activeUserId: state.users.active,
     activeCategoryId: state.categories.active,
     filter: state.tasks.filter
