@@ -55,7 +55,7 @@ export default class Menu extends Component {
     if (/categories/.test(page)) title = 'Kategorien';
     if (/tasks/.test(page)) title = 'Aufgaben';
     if (/results/.test(page)) title = 'Ergebnisse';
-    if (/account/.test(page)) title = 'Konto';
+    if (/transactions/.test(page)) title = 'Konto';
 
     return (
       <div>
@@ -111,7 +111,7 @@ export default class Menu extends Component {
             />
             <Divider />
             <MenuItem
-              link="/account"
+              link="/transactions"
               label="Konto"
               onClick={this.handleClose}
               icon={<CreditCard />}

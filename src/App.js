@@ -6,7 +6,7 @@ import Users from './users/users';
 import Categories from './categories/categories';
 import Tasks from './tasks/tasks';
 import Results from './results/results';
-import Account from './account/account';
+import Transactions from './transactions/transactions';
 
 const App = props =>
   <Router>
@@ -16,7 +16,7 @@ const App = props =>
       <Route path="/categories" component={Categories} />
       <Route exact path="/tasks" component={Tasks} />
       <Route path="/results" component={Results} />
-      <Route exact path="/account" component={Account} />
+      <Route exact path="/transactions" component={Transactions} />
     </Layout>
   </Router>;
 
