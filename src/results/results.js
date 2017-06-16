@@ -42,7 +42,7 @@ const ResultsPage = ({ users }) => {
           }}
         >
           <Divider />
-          {users.filter((u, i) => i !== 0).map((user, i) => (
+          {users.filter((u, i) => i !== 0).map((user, i) =>
             <span key={user.id}>
               <ListItem
                 primaryText={
@@ -59,7 +59,7 @@ const ResultsPage = ({ users }) => {
                         marginLeft: 16 + 'px'
                       }}
                     >
-                      <strong>{user.nickname}</strong>
+                      {user.nickname}
                     </span>
                     <Chip
                       style={{
@@ -74,7 +74,7 @@ const ResultsPage = ({ users }) => {
               />
               <Divider />
             </span>
-          ))}
+          )}
         </List>
       </Row>
     </Container>
