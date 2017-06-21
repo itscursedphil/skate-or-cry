@@ -14,8 +14,13 @@ import TransactionsFilter from './transactionsFilter';
 import { getUserById, getActiveUserId } from '../users/usersUtils';
 import { getTransactionsForActiveUser } from './transactionsUtils';
 
-const TransactionsPage = ({ userTransactions, getUser, activeUserId }) => {
-  // if (activeUserId < 0) return <PageWarning users />;
+const TransactionsPage = ({
+  userTransactions,
+  getUser,
+  activeUserId,
+  history
+}) => {
+  if (activeUserId < 0) return <PageWarning users />;
   return (
     <Container>
       <Row>
@@ -52,6 +57,10 @@ const TransactionsPage = ({ userTransactions, getUser, activeUserId }) => {
           right: 16 + 'px',
           zIndex: 999
         }}
+        onTouchTap={e => {
+          e.preventDefault();
+          history.push('/transactions/add');
+        }}
       >
         <ContentAdd />
       </FloatingActionButton>
@@ -63,7 +72,8 @@ TransactionsPage.propTypes = {
   userTransactions: PropTypes.array.isRequired,
   getUser: PropTypes.func.isRequired,
   // getUserName: PropTypes.func.isRequired,
-  activeUserId: PropTypes.number.isRequired
+  activeUserId: PropTypes.number.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const mapDispatchToProps = dispatch => {

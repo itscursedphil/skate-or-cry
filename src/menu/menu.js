@@ -56,6 +56,7 @@ export default class Menu extends Component {
     if (/tasks/.test(page)) title = 'Aufgaben';
     if (/results/.test(page)) title = 'Ergebnisse';
     if (/transactions/.test(page)) title = 'Konto';
+    if (/transactions\/add/.test(page)) title = 'Bezahlung';
 
     return (
       <div>

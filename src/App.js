@@ -7,6 +7,7 @@ import Categories from './categories/categories';
 import Tasks from './tasks/tasks';
 import Results from './results/results';
 import Transactions from './transactions/transactions';
+import TransactionAdd from './transactions/transactionAdd';
 
 const App = props =>
   <Router>
@@ -17,6 +18,7 @@ const App = props =>
       <Route exact path="/tasks" component={Tasks} />
       <Route path="/results" component={Results} />
       <Route exact path="/transactions" component={Transactions} />
+      <Route exact path="/transactions/add" component={TransactionAdd} />
     </Layout>
   </Router>;
 
