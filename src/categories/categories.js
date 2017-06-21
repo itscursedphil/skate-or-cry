@@ -12,6 +12,8 @@ import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
 import PageWarning from '../ui/pageWarning';
+import { getCategories, getActiveCategoryId } from './categoriesUtils';
+import { getActiveUserId } from '../users/usersUtils';
 
 const categoriesList = ({
   categories,
@@ -66,9 +68,9 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    categories: state.categories.all,
-    active: state.categories.active,
-    activeUserId: state.users.active
+    categories: getCategories(state),
+    active: getActiveCategoryId(state),
+    activeUserId: getActiveUserId(state)
   };
 };
 

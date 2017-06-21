@@ -12,12 +12,13 @@ import {
   openNotification,
   setNoticationMessage
 } from '../notifications/notificationsActions';
+import { getUsers, getActiveUserId } from './usersUtils';
 
-const UsersList = ({ users, active, onUserSelected, history }) => (
+const UsersList = ({ users, active, onUserSelected, history }) =>
   <Container>
     <Row>
       <List style={{ width: 100 + '%' }}>
-        {users.map((user, i) => (
+        {users.map((user, i) =>
           <UsersListItem
             key={user.id}
             onClick={() => onUserSelected(user.id, user.nickname, history)}
@@ -27,7 +28,7 @@ const UsersList = ({ users, active, onUserSelected, history }) => (
             checked={user.id === active}
             divider={i < users.length - 1}
           />
-        ))}
+        )}
       </List>
     </Row>
     {active > -1 &&
@@ -38,8 +39,7 @@ const UsersList = ({ users, active, onUserSelected, history }) => (
           </Link>
         </Col>
       </Row>}
-  </Container>
-);
+  </Container>;
 
 UsersList.propTypes = {
   users: PropTypes.array.isRequired,
@@ -61,8 +61,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    users: state.users.all,
-    active: state.users.active
+    users: getUsers(state),
+    active: getActiveUserId(state)
   };
 };
 

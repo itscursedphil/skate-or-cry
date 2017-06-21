@@ -14,6 +14,9 @@ import { setTasksFilter } from './tasksActions';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import PageWarning from '../ui/pageWarning';
+import { getTasksForActiveCategory, getTasksFilter } from './tasksUtils';
+import { getActiveUser, getActiveUserId } from '../users/usersUtils';
+import { getActiveCategoryId } from '../categories/categoriesUtils';
 
 const TasksPage = ({
   tasks,
@@ -132,14 +135,11 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    tasks: state.tasks.all.filter(
-      task => task.catId === state.categories.active
-    ),
-    user:
-      state.users.all.filter(user => user.id === state.users.active)[0] || {},
-    activeUserId: state.users.active,
-    activeCategoryId: state.categories.active,
-    filter: state.tasks.filter
+    tasks: getTasksForActiveCategory(state),
+    user: getActiveUser(state) || {},
+    activeUserId: getActiveUserId(state),
+    activeCategoryId: getActiveCategoryId(state),
+    filter: getTasksFilter(state)
   };
 };
 
