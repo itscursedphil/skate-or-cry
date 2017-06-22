@@ -22,96 +22,87 @@ const TasksPage = ({
   tasks,
   user,
   activeUserId,
-  activeCategoryId,
   onTaskClicked,
   filter,
   setFilter
-}) => {
-  if (activeUserId < 0) {
-    return <PageWarning users />;
-  } else if (activeCategoryId < 0) {
-    return <PageWarning categories />;
-  } else {
-    return (
-      <Container>
-        <Row>
-          <Col>
-            <SelectField
-              floatingLabelText="Filter"
-              value={filter}
-              onChange={(e, i, v) => setFilter(v)}
-              fullWidth
-            >
-              <MenuItem value={'all'} primaryText="Alle" />
-              <Divider />
-              <MenuItem value={'completed'} primaryText="Erledigt" />
-              <Divider />
-              <MenuItem value={'uncompleted'} primaryText="Unerledigt" />
-            </SelectField>
-          </Col>
-        </Row>
-        <Row>
-          <List
-            style={{
-              width: 100 + '%'
-            }}
+}) =>
+  <PageWarning users categories>
+    <Container>
+      <Row>
+        <Col>
+          <SelectField
+            floatingLabelText="Filter"
+            value={filter}
+            onChange={(e, i, v) => setFilter(v)}
+            fullWidth
           >
-            {tasks.map(task => {
-              const isCompleted =
-                user.completed.filter(c => c.id === task.id).length > 0;
+            <MenuItem value={'all'} primaryText="Alle" />
+            <Divider />
+            <MenuItem value={'completed'} primaryText="Erledigt" />
+            <Divider />
+            <MenuItem value={'uncompleted'} primaryText="Unerledigt" />
+          </SelectField>
+        </Col>
+      </Row>
+      <Row>
+        <List
+          style={{
+            width: 100 + '%'
+          }}
+        >
+          {tasks.map(task => {
+            const isCompleted =
+              user.completed.filter(c => c.id === task.id).length > 0;
 
-              if (
-                filter === 'all' ||
-                (filter === 'completed' && isCompleted) ||
-                (filter === 'uncompleted' && !isCompleted)
-              ) {
-                return (
-                  <span key={task.id}>
-                    <ListItem
-                      onClick={e => {
-                        e.preventDefault();
-                        onTaskClicked(
-                          task.id,
-                          activeUserId,
-                          task.points,
-                          isCompleted
-                        );
-                      }}
-                      primaryText={task.title}
-                      secondaryText={
-                        <div>
-                          <strong>{task.points} Punkte</strong>
-                          {task.comment.length ? ` - ${task.comment}` : ''}
-                        </div>
-                      }
-                      leftCheckbox={<Checkbox checked={isCompleted} />}
-                      // rightIcon={
-                      //   isCompleted ? <IconChecked /> : <IconUnchecked />
-                      // }
-                      style={{
-                        // backgroundColor: isCompleted ? '#ececec' : 'transparent'
-                        opacity: isCompleted ? 0.4 : 1
-                      }}
-                    />
-                    <Divider />
-                  </span>
-                );
-              } else {
-                return null;
-              }
-            })}
-          </List>
-        </Row>
-      </Container>
-    );
-  }
-};
+            if (
+              filter === 'all' ||
+              (filter === 'completed' && isCompleted) ||
+              (filter === 'uncompleted' && !isCompleted)
+            ) {
+              return (
+                <span key={task.id}>
+                  <ListItem
+                    onClick={e => {
+                      e.preventDefault();
+                      onTaskClicked(
+                        task.id,
+                        activeUserId,
+                        task.points,
+                        isCompleted
+                      );
+                    }}
+                    primaryText={task.title}
+                    secondaryText={
+                      <div>
+                        <strong>{task.points} Punkte</strong>
+                        {task.comment.length ? ` - ${task.comment}` : ''}
+                      </div>
+                    }
+                    leftCheckbox={<Checkbox checked={isCompleted} />}
+                    // rightIcon={
+                    //   isCompleted ? <IconChecked /> : <IconUnchecked />
+                    // }
+                    style={{
+                      // backgroundColor: isCompleted ? '#ececec' : 'transparent'
+                      opacity: isCompleted ? 0.4 : 1
+                    }}
+                  />
+                  <Divider />
+                </span>
+              );
+            } else {
+              return null;
+            }
+          })}
+        </List>
+      </Row>
+    </Container>
+  </PageWarning>;
 
 TasksPage.propTypes = {
   tasks: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   activeUserId: PropTypes.number.isRequired,
-  activeCategoryId: PropTypes.number.isRequired,
   onTaskClicked: PropTypes.func.isRequired,
   filter: PropTypes.string.isRequired,
   setFilter: PropTypes.func.isRequired
@@ -138,7 +129,6 @@ const mapStateToProps = state => {
     tasks: getTasksForActiveCategory(state),
     user: getActiveUser(state) || {},
     activeUserId: getActiveUserId(state),
-    activeCategoryId: getActiveCategoryId(state),
     filter: getTasksFilter(state)
   };
 };

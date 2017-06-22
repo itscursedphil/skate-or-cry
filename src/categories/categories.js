@@ -15,15 +15,8 @@ import PageWarning from '../ui/pageWarning';
 import { getCategories, getActiveCategoryId } from './categoriesUtils';
 import { getActiveUserId } from '../users/usersUtils';
 
-const categoriesList = ({
-  categories,
-  active,
-  activeUserId,
-  onCategorySelected,
-  history
-}) => {
-  if (activeUserId < 0) return <PageWarning users />;
-  return (
+const categoriesList = ({ categories, active, onCategorySelected, history }) =>
+  <PageWarning users>
     <Container>
       <Row>
         <List
@@ -45,13 +38,11 @@ const categoriesList = ({
         </List>
       </Row>
     </Container>
-  );
-};
+  </PageWarning>;
 
 categoriesList.propTypes = {
   categories: PropTypes.array.isRequired,
   active: PropTypes.number.isRequired,
-  activeUserId: PropTypes.number.isRequired,
   onCategorySelected: PropTypes.func.isRequired
 };
 
@@ -69,8 +60,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     categories: getCategories(state),
-    active: getActiveCategoryId(state),
-    activeUserId: getActiveUserId(state)
+    active: getActiveCategoryId(state)
   };
 };
 

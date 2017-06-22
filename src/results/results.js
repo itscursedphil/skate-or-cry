@@ -9,77 +9,73 @@ import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import Subheader from 'material-ui/Subheader';
 
-const ResultsPage = ({ users }) => {
-  console.log(users);
-  return (
-    <Container>
-      <Row className="flex-colum" style={{ padding: '16px 0 32px 0' }}>
-        <Col xs={12} className="d-flex justify-content-center">
-          <Subheader style={{ textAlign: 'center', paddingLeft: 0 }}>
-            Gewinner:
-          </Subheader>
-        </Col>
-        <Col xs={12} className="d-flex justify-content-center">
-          <Avatar src={users[0].image} size={120} />
-        </Col>
-        <Col
-          xs={12}
-          className="d-flex justify-content-center"
-          style={{ marginTop: 16 + 'px' }}
-        >
-          <h3>{users[0].nickname}</h3>
-        </Col>
-        <Col xs={12} className="d-flex justify-content-center">
-          <Chip>
-            {getUserPoints(users[0])} Pts.
-          </Chip>
-        </Col>
-      </Row>
-      <Row>
-        <List
-          style={{
-            width: 100 + '%'
-          }}
-        >
-          <Divider />
-          {users.filter((u, i) => i !== 0).map((user, i) =>
-            <span key={user.id}>
-              <ListItem
-                primaryText={
+const ResultsPage = ({ users }) =>
+  <Container>
+    <Row className="flex-colum" style={{ padding: '16px 0 32px 0' }}>
+      <Col xs={12} className="d-flex justify-content-center">
+        <Subheader style={{ textAlign: 'center', paddingLeft: 0 }}>
+          Gewinner:
+        </Subheader>
+      </Col>
+      <Col xs={12} className="d-flex justify-content-center">
+        <Avatar src={users[0].image} size={120} />
+      </Col>
+      <Col
+        xs={12}
+        className="d-flex justify-content-center"
+        style={{ marginTop: 16 + 'px' }}
+      >
+        <h3>{users[0].nickname}</h3>
+      </Col>
+      <Col xs={12} className="d-flex justify-content-center">
+        <Chip>
+          {getUserPoints(users[0])} Pts.
+        </Chip>
+      </Col>
+    </Row>
+    <Row>
+      <List
+        style={{
+          width: 100 + '%'
+        }}
+      >
+        <Divider />
+        {users.filter((u, i) => i !== 0).map((user, i) =>
+          <span key={user.id}>
+            <ListItem
+              primaryText={
+                <span
+                  style={{
+                    width: 100 + '%',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Avatar src={user.image} />
                   <span
                     style={{
-                      width: 100 + '%',
-                      display: 'flex',
-                      alignItems: 'center'
+                      marginLeft: 16 + 'px'
                     }}
                   >
-                    <Avatar src={user.image} />
-                    <span
-                      style={{
-                        marginLeft: 16 + 'px'
-                      }}
-                    >
-                      {user.nickname}
-                    </span>
-                    <Chip
-                      style={{
-                        marginLeft: 'auto'
-                      }}
-                    >
-                      {getUserPoints(user)} Pts.
-                    </Chip>
+                    {user.nickname}
                   </span>
-                }
-                // secondaryText={user.name}
-              />
-              <Divider />
-            </span>
-          )}
-        </List>
-      </Row>
-    </Container>
-  );
-};
+                  <Chip
+                    style={{
+                      marginLeft: 'auto'
+                    }}
+                  >
+                    {getUserPoints(user)} Pts.
+                  </Chip>
+                </span>
+              }
+              // secondaryText={user.name}
+            />
+            <Divider />
+          </span>
+        )}
+      </List>
+    </Row>
+  </Container>;
 
 ResultsPage.propTypes = {
   users: PropTypes.array.isRequired

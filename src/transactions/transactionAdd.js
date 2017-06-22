@@ -12,15 +12,14 @@ import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const TransactionAddPage = ({ users, activeUserId }) => {
-  // if (activeUserId < 0) return <PageWarning users />;
-  return (
+const TransactionAddPage = ({ users, activeUserId }) =>
+  <PageWarning users>
     <Container>
       <Row>
         <Col>
           {/* <Subheader>
-            An:
-          </Subheader> */}
+              An:
+            </Subheader> */}
           <SelectField
             floatingLabelText="An:"
             value={null}
@@ -85,8 +84,7 @@ const TransactionAddPage = ({ users, activeUserId }) => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  </PageWarning>;
 
 TransactionAddPage.propTypes = {
   users: PropTypes.array.isRequired,
