@@ -11,5 +11,31 @@ export const getTransactionsForUserId = (state, id) => [
   )
 ];
 
+const getSentTransactionsForUserId = (state, id) =>
+  [...getTransactionsForUserId(state, id)].filter(
+    transaction => transaction.senderId === id
+  );
+
+const getReceivedTransactionsForUserId = (state, id) =>
+  [...getTransactionsForUserId(state, id)].filter(
+    transaction => transaction.receiverId === id
+  );
+
+export const getTransactionsSentTotalForUserId = (state, id) =>
+  150 -
+  getSentTransactionsForUserId(state, id).reduce(
+    (total, transaction) => total + transaction.ammount,
+    0
+  );
+
 export const getTransactionsForActiveUser = state =>
   getTransactionsForUserId(state, getActiveUserId(state));
+
+export const getSentTransactionsForActiveUser = state =>
+  getSentTransactionsForUserId(state, getActiveUserId(state));
+
+export const getReceivedTransactionsForActiveUser = state =>
+  getReceivedTransactionsForUserId(state, getActiveUserId(state));
+
+export const getTransactionsSentTotalForActiveUser = state =>
+  getTransactionsSentTotalForUserId(state, getActiveUserId(state));

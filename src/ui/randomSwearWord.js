@@ -1,5 +1,3 @@
-import React from 'react';
-
 const store = [
   'Steckdosenbefruchter',
   'Sohn einer blutpissenden Hafenhure',
@@ -53,9 +51,9 @@ const store = [
   'Pimperperle'
 ];
 
-const RandomSwearWord = props => {
+const randomSwearWord = () => {
   const randomId = Math.floor(Math.random() * store.length);
-  return <span>{store[randomId]}</span>;
+  return store[randomId];
 };
 
-export default RandomSwearWord;
+export default randomSwearWord;

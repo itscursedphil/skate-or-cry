@@ -19,9 +19,8 @@ const TransactionsPage = ({
   getUser,
   activeUserId,
   history
-}) => {
-  if (activeUserId < 0) return <PageWarning users />;
-  return (
+}) =>
+  <PageWarning users>
     <Container>
       <Row>
         <Col>
@@ -65,13 +64,11 @@ const TransactionsPage = ({
         <ContentAdd />
       </FloatingActionButton>
     </Container>
-  );
-};
+  </PageWarning>;
 
 TransactionsPage.propTypes = {
   userTransactions: PropTypes.array.isRequired,
   getUser: PropTypes.func.isRequired,
-  // getUserName: PropTypes.func.isRequired,
   activeUserId: PropTypes.number.isRequired,
   history: PropTypes.object.isRequired
 };
@@ -84,7 +81,6 @@ const mapStateToProps = state => {
   return {
     userTransactions: getTransactionsForActiveUser(state),
     getUser: id => getUserById(state, id),
-    // getUserName: id => getUserById(state, id).nickname,
     activeUserId: getActiveUserId(state)
   };
 };

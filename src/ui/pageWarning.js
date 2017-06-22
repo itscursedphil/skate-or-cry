@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
-import RandomSwearWord from '../ui/randomSwearWord';
+import randomSwearWord from '../ui/randomSwearWord';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getActiveUserId } from '../users/usersUtils';
@@ -12,13 +12,13 @@ const WarningStyle1 = ({ text }) =>
   <p>
     Eh du
     {' '}
-    <RandomSwearWord />
+    {randomSwearWord()}
     , such mal lieber erstmal '{text} aus!
   </p>;
 
 const WarningStyle2 = ({ text }) =>
   <p>
-    Du musst erst '{text} auswählen, du <RandomSwearWord />!
+    Du musst erst '{text} auswählen, du {randomSwearWord()}!
   </p>;
 
 const PageWarningComponent = ({
@@ -28,6 +28,7 @@ const PageWarningComponent = ({
   activeCategoryId,
   children
 }) => {
+  return children;
   if ((users && activeUserId < 0) || (categories && activeCategoryId < 0)) {
     const text = users && activeUserId < 0
       ? 'nen Benutzer'

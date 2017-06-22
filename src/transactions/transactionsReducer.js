@@ -1,4 +1,7 @@
-import { SET_TRANSACTIONS_FILTER } from './transactionsActions';
+import {
+  SET_TRANSACTIONS_FILTER,
+  ADD_TRANSACTION
+} from './transactionsActions';
 import API from '../api.json';
 
 const initialState = {
@@ -12,6 +15,21 @@ const transactions = (state = initialState, action) => {
       return {
         ...state,
         filter: action.payload.filter
+      };
+
+    case ADD_TRANSACTION:
+      return {
+        ...state,
+        all: [
+          ...state.all,
+          {
+            id: state.all.length,
+            ammount: action.payload.ammount,
+            senderId: action.payload.senderId,
+            receiverId: action.payload.receiverId,
+            comment: action.payload.comment
+          }
+        ]
       };
 
     default:

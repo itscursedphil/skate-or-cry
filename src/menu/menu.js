@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
@@ -11,8 +12,11 @@ import EditorList from 'material-ui/svg-icons/editor/format-list-bulleted';
 import SocialCake from 'material-ui/svg-icons/social/cake';
 import CreditCard from 'material-ui/svg-icons/action/credit-card';
 import MenuItem from './menuItem';
+import { getActiveUserId, getActiveUser } from '../users/usersUtils';
+import { connect } from 'react-redux';
+import Avatar from 'material-ui/Avatar';
 
-export default class Menu extends Component {
+class MenuComponent extends Component {
   constructor(props) {
     super(props);
 
@@ -47,6 +51,7 @@ export default class Menu extends Component {
   }
 
   render() {
+    const { activeUserId, activeUser } = this.props;
     const { open } = this.state;
     const page = window.location.pathname;
     let title = '';
@@ -71,6 +76,15 @@ export default class Menu extends Component {
                   <NavigationMenu />
                 </IconButton>
           }
+          iconElementRight={
+            activeUserId > -1 ? <Avatar src={activeUser.image} /> : null
+          }
+          iconStyleRight={{
+            display: 'flex',
+            alignItems: 'center',
+            marginTop: 0
+          }}
+          // onRightIconButtonTouchTap={() => history.push('/users')}
           onLeftIconButtonTouchTap={this.handleToggle}
           zDepth={2}
           style={{
@@ -130,3 +144,19 @@ export default class Menu extends Component {
     );
   }
 }
+
+MenuComponent.propTypes = {
+  activeUserId: PropTypes.number.isRequired,
+  activeUser: PropTypes.object
+};
+
+const mapStateToProps = state => {
+  return {
+    activeUserId: getActiveUserId(state),
+    activeUser: getActiveUser(state)
+  };
+};
+
+const Menu = connect(mapStateToProps)(MenuComponent);
+
+export default Menu;
