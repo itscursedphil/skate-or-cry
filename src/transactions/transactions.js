@@ -5,8 +5,6 @@ import PageWarning from '../ui/pageWarning';
 import { Container, Row, Col } from 'reactstrap';
 import { List } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import Subheader from 'material-ui/Subheader';
-import Chip from 'material-ui/Chip';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import TransactionsListItem from './transactionsListItem';
@@ -29,7 +27,7 @@ const TransactionsPage = ({
       </Row>
       <Row>
         <List style={{ width: 100 + '%' }}>
-          {userTransactions.map(transaction => {
+          {[...userTransactions].reverse().map(transaction => {
             const { id, senderId, receiverId, ammount } = transaction;
             const sender = getUser(senderId);
             const receiver = getUser(receiverId);
@@ -37,7 +35,9 @@ const TransactionsPage = ({
               activeUserId,
               sender,
               receiver,
-              ammount
+              ammount,
+              id,
+              history
             };
 
             return (

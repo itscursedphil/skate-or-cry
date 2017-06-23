@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import PageWarning from '../ui/pageWarning';
-import Subheader from 'material-ui/Subheader';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
 import { getUsers, getActiveUserId } from '../users/usersUtils';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -15,6 +13,7 @@ import Chip from 'material-ui/Chip';
 import { getTransactionsSentTotalForActiveUser } from './transactionsUtils';
 import randomSwearWord from '../ui/randomSwearWord';
 import { addTransaction } from './transactionsActions';
+import Subtitle from '../ui/subtitle';
 
 class TransactionAddPage extends Component {
   constructor(props) {
@@ -184,17 +183,10 @@ class TransactionAddPage extends Component {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    marginTop: 8 + 'px',
-                    fontSize: 0.75 + 'em'
+                    marginTop: 8 + 'px'
                   }}
                 >
-                  <span
-                    style={{
-                      color: 'rgba(0, 0, 0, 0.3)'
-                    }}
-                  >
-                    Übrig:
-                  </span>
+                  <Subtitle>Übrig:</Subtitle>
                   <Chip>
                     {totalLeft - form.ammount} Pts.
                   </Chip>

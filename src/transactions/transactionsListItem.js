@@ -3,7 +3,14 @@ import Avatar from 'material-ui/Avatar';
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 import { ListItem } from 'material-ui/List';
 
-const TransactionsListItem = ({ activeUserId, sender, receiver, ammount }) => {
+const TransactionsListItem = ({
+  activeUserId,
+  sender,
+  receiver,
+  ammount,
+  id,
+  history
+}) => {
   const type = activeUserId === sender.id
     ? 'sent'
     : activeUserId === receiver.id ? 'received' : '';
@@ -39,6 +46,10 @@ const TransactionsListItem = ({ activeUserId, sender, receiver, ammount }) => {
           <ChevronRight style={{ marginLeft: 'auto' }} />
         </div>
       }
+      onClick={e => {
+        e.preventDefault();
+        history.push(`/transactions/${id}`);
+      }}
     />
   );
 };

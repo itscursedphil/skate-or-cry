@@ -13,7 +13,6 @@ import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
 import PageWarning from '../ui/pageWarning';
 import { getCategories, getActiveCategoryId } from './categoriesUtils';
-import { getActiveUserId } from '../users/usersUtils';
 
 const categoriesList = ({ categories, active, onCategorySelected, history }) =>
   <PageWarning users>

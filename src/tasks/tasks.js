@@ -16,7 +16,6 @@ import MenuItem from 'material-ui/MenuItem';
 import PageWarning from '../ui/pageWarning';
 import { getTasksForActiveCategory, getTasksFilter } from './tasksUtils';
 import { getActiveUser, getActiveUserId } from '../users/usersUtils';
-import { getActiveCategoryId } from '../categories/categoriesUtils';
 
 const TasksPage = ({
   tasks,

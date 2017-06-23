@@ -1,6 +1,7 @@
 import {
   SET_TRANSACTIONS_FILTER,
-  ADD_TRANSACTION
+  ADD_TRANSACTION,
+  DELETE_TRANSACTION
 } from './transactionsActions';
 import API from '../api.json';
 
@@ -23,13 +24,20 @@ const transactions = (state = initialState, action) => {
         all: [
           ...state.all,
           {
-            id: state.all.length,
+            id: state.all.length + 1,
             ammount: action.payload.ammount,
             senderId: action.payload.senderId,
             receiverId: action.payload.receiverId,
-            comment: action.payload.comment
+            comment: action.payload.comment,
+            timestamp: Date.now()
           }
         ]
+      };
+
+    case DELETE_TRANSACTION:
+      return {
+        ...state,
+        all: state.all.filter(t => t.id !== action.payload.id)
       };
 
     default:

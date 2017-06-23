@@ -1,5 +1,6 @@
 export const SET_TRANSACTIONS_FILTER = 'SET_TRANSACTIONS_FILTER';
 export const ADD_TRANSACTION = 'ADD_TRANSACTION';
+export const DELETE_TRANSACTION = 'DELETE_TRANSACTION';
 
 export const setTransactionsFilter = filter => {
   return {
@@ -18,6 +19,15 @@ export const addTransaction = (senderId, receiverId, ammount, comment) => {
       receiverId,
       ammount,
       comment
+    }
+  };
+};
+
+export const deleteTransaction = id => {
+  return {
+    type: DELETE_TRANSACTION,
+    payload: {
+      id
     }
   };
 };
