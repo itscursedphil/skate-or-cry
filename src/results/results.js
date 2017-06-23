@@ -8,81 +8,88 @@ import { connect } from 'react-redux';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import Subheader from 'material-ui/Subheader';
+import { getReceivedTransactionsForUserId } from '../transactions/transactionsUtils';
 
-const ResultsPage = ({ users }) =>
-  <Container>
-    <Row className="flex-colum" style={{ padding: '16px 0 32px 0' }}>
-      <Col xs={12} className="d-flex justify-content-center">
-        <Subheader style={{ textAlign: 'center', paddingLeft: 0 }}>
-          Gewinner:
-        </Subheader>
-      </Col>
-      <Col xs={12} className="d-flex justify-content-center">
-        <Avatar src={users[0].image} size={120} />
-      </Col>
-      <Col
-        xs={12}
-        className="d-flex justify-content-center"
-        style={{ marginTop: 16 + 'px' }}
-      >
-        <h3>{users[0].nickname}</h3>
-      </Col>
-      <Col xs={12} className="d-flex justify-content-center">
-        <Chip>
-          {getUserPoints(users[0])} Pts.
-        </Chip>
-      </Col>
-    </Row>
-    <Row>
-      <List
-        style={{
-          width: 100 + '%'
-        }}
-      >
-        <Divider />
-        {users.filter((u, i) => i !== 0).map((user, i) =>
-          <span key={user.id}>
-            <ListItem
-              primaryText={
-                <span
-                  style={{
-                    width: 100 + '%',
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}
-                >
-                  <Avatar src={user.image} />
+const ResultsPage = ({ users, getUserPoints }) => {
+  const sortedUsers = users.sort((userA, userB) => {
+    const userAScores = getUserPoints(userA);
+    const userBScores = getUserPoints(userB);
+    return userAScores < userBScores;
+  });
+  return (
+    <Container>
+      <Row className="flex-colum" style={{ padding: '16px 0 32px 0' }}>
+        <Col xs={12} className="d-flex justify-content-center">
+          <Subheader style={{ textAlign: 'center', paddingLeft: 0 }}>
+            Gewinner:
+          </Subheader>
+        </Col>
+        <Col xs={12} className="d-flex justify-content-center">
+          <Avatar src={sortedUsers[0].image} size={120} />
+        </Col>
+        <Col
+          xs={12}
+          className="d-flex justify-content-center"
+          style={{ marginTop: 16 + 'px' }}
+        >
+          <h3>{sortedUsers[0].nickname}</h3>
+        </Col>
+        <Col xs={12} className="d-flex justify-content-center">
+          <Chip>
+            {getUserPoints(sortedUsers[0])} Pts.
+          </Chip>
+        </Col>
+      </Row>
+      <Row>
+        <List
+          style={{
+            width: 100 + '%'
+          }}
+        >
+          <Divider />
+          {sortedUsers.filter((u, i) => i !== 0).map((user, i) =>
+            <span key={user.id}>
+              <ListItem
+                primaryText={
                   <span
                     style={{
-                      marginLeft: 16 + 'px'
+                      width: 100 + '%',
+                      display: 'flex',
+                      alignItems: 'center'
                     }}
                   >
-                    {user.nickname}
+                    <Avatar src={user.image} />
+                    <span
+                      style={{
+                        marginLeft: 16 + 'px'
+                      }}
+                    >
+                      {user.nickname}
+                    </span>
+                    <Chip
+                      style={{
+                        marginLeft: 'auto'
+                      }}
+                    >
+                      {getUserPoints(user)} Pts.
+                    </Chip>
                   </span>
-                  <Chip
-                    style={{
-                      marginLeft: 'auto'
-                    }}
-                  >
-                    {getUserPoints(user)} Pts.
-                  </Chip>
-                </span>
-              }
-              // secondaryText={user.name}
-            />
-            <Divider />
-          </span>
-        )}
-      </List>
-    </Row>
-  </Container>;
-
-ResultsPage.propTypes = {
-  users: PropTypes.array.isRequired
+                }
+                // secondaryText={user.name}
+              />
+              <Divider />
+            </span>
+          )}
+        </List>
+      </Row>
+    </Container>
+  );
 };
 
-const getUserPoints = user =>
-  user.completed.map(task => task.points).reduce((acc, val) => acc + val, 0);
+ResultsPage.propTypes = {
+  users: PropTypes.array.isRequired,
+  getUserPoints: PropTypes.func.isRequired
+};
 
 const mapDispatchToProps = dispatch => {
   return {};
@@ -90,11 +97,19 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    users: [...state.users.all].sort((userA, userB) => {
-      const userAScores = getUserPoints(userA);
-      const userBScores = getUserPoints(userB);
-      return userAScores < userBScores;
-    })
+    users: state.users.all,
+    getUserPoints: user => {
+      const tasksPoints = user.completed
+        .map(task => task.points)
+        .reduce((acc, val) => acc + val, 0);
+      const transactionsPoints = getReceivedTransactionsForUserId(
+        state,
+        user.id
+      )
+        .map(transaction => transaction.ammount)
+        .reduce((acc, val) => acc + val, 0);
+      return tasksPoints + transactionsPoints;
+    }
   };
 };
 

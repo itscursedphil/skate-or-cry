@@ -11,12 +11,12 @@ export const getTransactionsForUserId = (state, id) => [
   )
 ];
 
-const getSentTransactionsForUserId = (state, id) =>
+export const getSentTransactionsForUserId = (state, id) =>
   [...getTransactionsForUserId(state, id)].filter(
     transaction => transaction.senderId === id
   );
 
-const getReceivedTransactionsForUserId = (state, id) =>
+export const getReceivedTransactionsForUserId = (state, id) =>
   [...getTransactionsForUserId(state, id)].filter(
     transaction => transaction.receiverId === id
   );
