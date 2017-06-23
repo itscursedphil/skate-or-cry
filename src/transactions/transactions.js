@@ -10,11 +10,18 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import TransactionsListItem from './transactionsListItem';
 import TransactionsFilter from './transactionsFilter';
 import { getUserById, getActiveUserId } from '../users/usersUtils';
-import { getTransactionsForActiveUser } from './transactionsUtils';
+import {
+  getTransactionsFilter,
+  getTransactionsForActiveUser,
+  getFilteredTransactionsForActiveUser
+} from './transactionsUtils';
+import { setTransactionsFilter } from './transactionsActions';
 
 const TransactionsPage = ({
   userTransactions,
   getUser,
+  setFilter,
+  filter,
   activeUserId,
   history
 }) =>
@@ -22,7 +29,13 @@ const TransactionsPage = ({
     <Container>
       <Row>
         <Col>
-          <TransactionsFilter value="all" onChangeHandler={(e, i, v) => null} />
+          <TransactionsFilter
+            value={filter}
+            onChangeHandler={(e, i, v) => {
+              e.preventDefault();
+              setFilter(v);
+            }}
+          />
         </Col>
       </Row>
       <Row>
@@ -69,18 +82,23 @@ const TransactionsPage = ({
 TransactionsPage.propTypes = {
   userTransactions: PropTypes.array.isRequired,
   getUser: PropTypes.func.isRequired,
+  setFilter: PropTypes.func.isRequired,
+  filter: PropTypes.string.isRequired,
   activeUserId: PropTypes.number.isRequired,
   history: PropTypes.object.isRequired
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    setFilter: filter => dispatch(setTransactionsFilter(filter))
+  };
 };
 
 const mapStateToProps = state => {
   return {
-    userTransactions: getTransactionsForActiveUser(state),
+    userTransactions: getFilteredTransactionsForActiveUser(state),
     getUser: id => getUserById(state, id),
+    filter: getTransactionsFilter(state),
     activeUserId: getActiveUserId(state)
   };
 };

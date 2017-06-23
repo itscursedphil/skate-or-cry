@@ -39,3 +39,22 @@ export const getReceivedTransactionsForActiveUser = state =>
 
 export const getTransactionsSentTotalForActiveUser = state =>
   getTransactionsSentTotalForUserId(state, getActiveUserId(state));
+
+export const getTransactionsFilter = state => state.transactions.filter;
+
+export const getFilteredTransactionsForUserId = (state, id) => {
+  const filter = getTransactionsFilter(state);
+  switch (filter) {
+    case 'sent':
+      return getSentTransactionsForUserId(state, id);
+
+    case 'received':
+      return getReceivedTransactionsForUserId(state, id);
+
+    default:
+      return getTransactionsForUserId(state, id);
+  }
+};
+
+export const getFilteredTransactionsForActiveUser = state =>
+  getFilteredTransactionsForUserId(state, getActiveUserId(state));

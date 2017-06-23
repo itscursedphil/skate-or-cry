@@ -31,14 +31,6 @@ const UsersList = ({ users, active, onUserSelected, history }) =>
         )}
       </List>
     </Row>
-    {active > -1 &&
-      <Row>
-        <Col>
-          <Link to="/categories">
-            <RaisedButton label="Zu den Aufgaben" primary fullWidth />
-          </Link>
-        </Col>
-      </Row>}
   </Container>;
 
 UsersList.propTypes = {
