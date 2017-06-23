@@ -101,13 +101,13 @@ const mapStateToProps = state => {
     getUserPoints: user => {
       const tasksPoints = user.completed
         .map(task => task.points)
-        .reduce((acc, val) => acc + val, 0);
+        .reduce((acc, val) => acc + val * 1.0, 0);
       const transactionsPoints = getReceivedTransactionsForUserId(
         state,
         user.id
       )
         .map(transaction => transaction.ammount)
-        .reduce((acc, val) => acc + val, 0);
+        .reduce((acc, val) => acc + val * 1.0, 0);
       return tasksPoints + transactionsPoints;
     }
   };

@@ -9,6 +9,7 @@ import Results from './results/results';
 import Transactions from './transactions/transactions';
 import TransactionAdd from './transactions/transactionAdd';
 import TransactionSingle from './transactions/transactionSingle';
+import Achievements from './achievements/achievements';
 
 const App = props =>
   <Router>
@@ -17,6 +18,7 @@ const App = props =>
       <Route path="/users" component={Users} />
       <Route path="/categories" component={Categories} />
       <Route exact path="/tasks" component={Tasks} />
+      <Route path="/achievements" component={Achievements} />
       <Route path="/results" component={Results} />
       <Switch>
         <Route exact path="/transactions" component={Transactions} />

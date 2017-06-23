@@ -11,6 +11,7 @@ import ImageCollections from 'material-ui/svg-icons/image/collections';
 import EditorList from 'material-ui/svg-icons/editor/format-list-bulleted';
 import SocialCake from 'material-ui/svg-icons/social/cake';
 import CreditCard from 'material-ui/svg-icons/action/credit-card';
+import StarIcon from 'material-ui/svg-icons/action/grade';
 import MenuItem from './menuItem';
 import { getActiveUserId, getActiveUser } from '../users/usersUtils';
 import { connect } from 'react-redux';
@@ -59,6 +60,7 @@ class MenuComponent extends Component {
     if (/users/.test(page)) title = 'Benutzer';
     if (/categories/.test(page)) title = 'Kategorien';
     if (/tasks/.test(page)) title = 'Aufgaben';
+    if (/achievements/.test(page)) title = 'Achievements';
     if (/results/.test(page)) title = 'Ergebnisse';
     if (/transactions/.test(page)) title = 'Konto';
     if (/transactions\/add/.test(page)) title = 'Bezahlung';
@@ -123,6 +125,13 @@ class MenuComponent extends Component {
               label="Aufgaben"
               onClick={this.handleClose}
               icon={<EditorList />}
+            />
+            <Divider />
+            <MenuItem
+              link="/achievements"
+              label="Achievements"
+              onClick={this.handleClose}
+              icon={<StarIcon />}
             />
             <Divider />
             <MenuItem
