@@ -38,7 +38,11 @@ const TransactionsPage = ({
           />
         </Col>
       </Row>
-      <Row>
+      <Row
+        style={{
+          paddingBottom: 64 + 'px'
+        }}
+      >
         <List style={{ width: 100 + '%' }}>
           {[...userTransactions].reverse().map(transaction => {
             const { id, senderId, receiverId, ammount } = transaction;

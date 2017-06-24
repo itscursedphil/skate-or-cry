@@ -14,7 +14,7 @@ const ResultsPage = ({ users, getUserPoints }) => {
   const sortedUsers = [...users].sort((userA, userB) => {
     const userAScores = getUserPoints(userA);
     const userBScores = getUserPoints(userB);
-    return userAScores < userBScores;
+    return userBScores - userAScores;
   });
   return (
     <Container>
