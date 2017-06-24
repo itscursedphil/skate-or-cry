@@ -9,7 +9,7 @@ import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import Subheader from 'material-ui/Subheader';
 import { getReceivedTransactionsForUserId } from '../transactions/transactionsUtils';
-
+import { getAchievementsForUserId } from '../achievements/achievementsUtils';
 const ResultsPage = ({ users, getUserPoints }) => {
   const sortedUsers = [...users].sort((userA, userB) => {
     const userAScores = getUserPoints(userA);
@@ -108,7 +108,10 @@ const mapStateToProps = state => {
       )
         .map(transaction => transaction.ammount)
         .reduce((acc, val) => acc + val * 1.0, 0);
-      return tasksPoints + transactionsPoints;
+      const achievementPoints = getAchievementsForUserId(state, user.id)
+        .map(achievement => achievement.points)
+        .reduce((acc, val) => acc + val * 1.0, 0);
+      return tasksPoints + transactionsPoints + achievementPoints;
     }
   };
 };
