@@ -13,25 +13,28 @@ import {
   setNoticationMessage
 } from '../notifications/notificationsActions';
 import { getUsers, getActiveUserId } from './usersUtils';
+import PageTitle from '../ui/pageTitle';
 
 const UsersList = ({ users, active, onUserSelected, history }) =>
-  <Container>
-    <Row>
-      <List style={{ width: 100 + '%' }}>
-        {users.map((user, i) =>
-          <UsersListItem
-            key={user.id}
-            onClick={() => onUserSelected(user.id, user.nickname, history)}
-            nickName={user.nickname}
-            fullName={user.name}
-            avatar={user.image}
-            checked={user.id === active}
-            divider={i < users.length - 1}
-          />
-        )}
-      </List>
-    </Row>
-  </Container>;
+  <PageTitle title="Benutzer">
+    <Container>
+      <Row>
+        <List style={{ width: 100 + '%' }}>
+          {users.map((user, i) =>
+            <UsersListItem
+              key={user.id}
+              onClick={() => onUserSelected(user.id, user.nickname, history)}
+              nickName={user.nickname}
+              fullName={user.name}
+              avatar={user.image}
+              checked={user.id === active}
+              divider={i < users.length - 1}
+            />
+          )}
+        </List>
+      </Row>
+    </Container>
+  </PageTitle>;
 
 UsersList.propTypes = {
   users: PropTypes.array.isRequired,

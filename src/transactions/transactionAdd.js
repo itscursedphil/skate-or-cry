@@ -14,6 +14,7 @@ import { getTransactionsSentTotalForActiveUser } from './transactionsUtils';
 import randomSwearWord from '../ui/randomSwearWord';
 import { addTransaction } from './transactionsActions';
 import Subtitle from '../ui/subtitle';
+import PageTitle from '../ui/pageTitle';
 
 class TransactionAddPage extends Component {
   constructor(props) {
@@ -114,109 +115,111 @@ class TransactionAddPage extends Component {
     const form = this.state;
     return (
       <PageWarning users>
-        <Container>
-          <Row>
-            <Col>
-              <form onSubmit={this.submitHandler}>
-                <SelectField
-                  floatingLabelText="An:"
-                  value={form.user}
-                  onChange={this.toUserChangedHandler}
-                  hintText="Benutzer auswählen"
-                  floatingLabelFixed={true}
-                  errorText={
-                    form.userError
-                      ? `Du musst einen Benutzer auwählen, du ${randomSwearWord()}!`
-                      : ''
-                  }
-                  fullWidth
-                >
-                  {[...users]
-                    .filter(user => user.id !== activeUserId)
-                    .map((user, i) =>
-                      <MenuItem
-                        style={{
-                          paddingTop: 8 + 'px',
-                          paddingBottom: 8 + 'px'
-                        }}
-                        key={user.id}
-                        value={user.id}
-                        label={user.nickname}
-                        primaryText={
-                          <div
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center'
-                            }}
-                          >
-                            <Avatar src={user.image} />
-                            <span
+        <PageTitle title="Bezahlung">
+          <Container>
+            <Row>
+              <Col>
+                <form onSubmit={this.submitHandler}>
+                  <SelectField
+                    floatingLabelText="An:"
+                    value={form.user}
+                    onChange={this.toUserChangedHandler}
+                    hintText="Benutzer auswählen"
+                    floatingLabelFixed={true}
+                    errorText={
+                      form.userError
+                        ? `Du musst einen Benutzer auwählen, du ${randomSwearWord()}!`
+                        : ''
+                    }
+                    fullWidth
+                  >
+                    {[...users]
+                      .filter(user => user.id !== activeUserId)
+                      .map((user, i) =>
+                        <MenuItem
+                          style={{
+                            paddingTop: 8 + 'px',
+                            paddingBottom: 8 + 'px'
+                          }}
+                          key={user.id}
+                          value={user.id}
+                          label={user.nickname}
+                          primaryText={
+                            <div
                               style={{
-                                paddingLeft: 16 + 'px',
-                                paddingRight: 16 + 'px'
+                                display: 'flex',
+                                alignItems: 'center'
                               }}
                             >
-                              {user.nickname}
-                            </span>
-                          </div>
-                        }
-                      />
-                    )}
-                </SelectField>
-                <TextField
-                  hintText="Betrag eingeben"
-                  floatingLabelText="Punkte:"
-                  type="number"
-                  // min="1"
-                  // max={totalLeft}
-                  value={form.ammount}
-                  onChange={this.ammountChangedHandler}
-                  errorText={
-                    form.ammountError
-                      ? `Bist du zu dumm zum rechnen, du ${randomSwearWord()}?`
-                      : ''
-                  }
-                  fullWidth
-                />
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    marginTop: 8 + 'px'
-                  }}
-                >
-                  <Subtitle>Übrig:</Subtitle>
-                  <Chip>
-                    {totalLeft - form.ammount} Pts.
-                  </Chip>
-                </div>
-                <TextField
-                  hintText="Kommentar eingeben"
-                  floatingLabelText="Für:"
-                  multiLine={true}
-                  rows={3}
-                  onChange={this.commentChangedHandler}
-                  errorText={
-                    form.commentError
-                      ? `Und für was soll das jetzt sein, du ${randomSwearWord()}?`
-                      : ''
-                  }
-                  fullWidth
-                />
-                <RaisedButton
-                  label="Bezahlen"
-                  primary={true}
-                  fullWidth
-                  style={{
-                    marginTop: 16 + 'px'
-                  }}
-                  onTouchTap={this.submitHandler}
-                />
-              </form>
-            </Col>
-          </Row>
-        </Container>
+                              <Avatar src={user.image} />
+                              <span
+                                style={{
+                                  paddingLeft: 16 + 'px',
+                                  paddingRight: 16 + 'px'
+                                }}
+                              >
+                                {user.nickname}
+                              </span>
+                            </div>
+                          }
+                        />
+                      )}
+                  </SelectField>
+                  <TextField
+                    hintText="Betrag eingeben"
+                    floatingLabelText="Punkte:"
+                    type="number"
+                    // min="1"
+                    // max={totalLeft}
+                    value={form.ammount}
+                    onChange={this.ammountChangedHandler}
+                    errorText={
+                      form.ammountError
+                        ? `Bist du zu dumm zum rechnen, du ${randomSwearWord()}?`
+                        : ''
+                    }
+                    fullWidth
+                  />
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      marginTop: 8 + 'px'
+                    }}
+                  >
+                    <Subtitle>Übrig:</Subtitle>
+                    <Chip>
+                      {totalLeft - form.ammount} Pts.
+                    </Chip>
+                  </div>
+                  <TextField
+                    hintText="Kommentar eingeben"
+                    floatingLabelText="Für:"
+                    multiLine={true}
+                    rows={3}
+                    onChange={this.commentChangedHandler}
+                    errorText={
+                      form.commentError
+                        ? `Und für was soll das jetzt sein, du ${randomSwearWord()}?`
+                        : ''
+                    }
+                    fullWidth
+                  />
+                  <RaisedButton
+                    label="Bezahlen"
+                    primary={true}
+                    fullWidth
+                    style={{
+                      marginTop: 16 + 'px'
+                    }}
+                    onTouchTap={this.submitHandler}
+                  />
+                </form>
+              </Col>
+            </Row>
+          </Container>
+        </PageTitle>
       </PageWarning>
     );
   }

@@ -52,18 +52,17 @@ class MenuComponent extends Component {
   }
 
   render() {
-    const { activeUserId, activeUser } = this.props;
+    const { activeUserId, activeUser, title } = this.props;
     const { open } = this.state;
     const page = window.location.pathname;
-    let title = '';
 
-    if (/users/.test(page)) title = 'Benutzer';
-    if (/categories/.test(page)) title = 'Kategorien';
-    if (/tasks/.test(page)) title = 'Aufgaben';
-    if (/achievements/.test(page)) title = 'Achievements';
-    if (/results/.test(page)) title = 'Ergebnisse';
-    if (/transactions/.test(page)) title = 'Konto';
-    if (/transactions\/add/.test(page)) title = 'Bezahlung';
+    // if (/users/.test(page)) title = 'Benutzer';
+    // if (/categories/.test(page)) title = 'Kategorien';
+    // if (/tasks/.test(page)) title = 'Aufgaben';
+    // if (/achievements/.test(page)) title = 'Achievements';
+    // if (/results/.test(page)) title = 'Ergebnisse';
+    // if (/transactions/.test(page)) title = 'Konto';
+    // if (/transactions\/add/.test(page)) title = 'Bezahlung';
 
     return (
       <div>
@@ -156,13 +155,15 @@ class MenuComponent extends Component {
 
 MenuComponent.propTypes = {
   activeUserId: PropTypes.number.isRequired,
-  activeUser: PropTypes.object
+  activeUser: PropTypes.object,
+  title: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     activeUserId: getActiveUserId(state),
-    activeUser: getActiveUser(state)
+    activeUser: getActiveUser(state),
+    title: state.app.pageTitle
   };
 };
 

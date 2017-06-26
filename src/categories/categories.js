@@ -13,30 +13,33 @@ import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
 import PageWarning from '../ui/pageWarning';
 import { getCategories, getActiveCategoryId } from './categoriesUtils';
+import PageTitle from '../ui/pageTitle';
 
 const categoriesList = ({ categories, active, onCategorySelected, history }) =>
   <PageWarning users>
-    <Container>
-      <Row>
-        <List
-          style={{
-            width: 100 + '%'
-          }}
-        >
-          {categories.map(category =>
-            <span key={category.id}>
-              <ListItem
-                primaryText={category.title}
-                leftCheckbox={<Checkbox checked={active === category.id} />}
-                onClick={() =>
-                  onCategorySelected(category.id, category.title, history)}
-              />
-              <Divider />
-            </span>
-          )}
-        </List>
-      </Row>
-    </Container>
+    <PageTitle title="Kategorien">
+      <Container>
+        <Row>
+          <List
+            style={{
+              width: 100 + '%'
+            }}
+          >
+            {categories.map(category =>
+              <span key={category.id}>
+                <ListItem
+                  primaryText={category.title}
+                  leftCheckbox={<Checkbox checked={active === category.id} />}
+                  onClick={() =>
+                    onCategorySelected(category.id, category.title, history)}
+                />
+                <Divider />
+              </span>
+            )}
+          </List>
+        </Row>
+      </Container>
+    </PageTitle>
   </PageWarning>;
 
 categoriesList.propTypes = {

@@ -17,6 +17,7 @@ import {
   openNotification,
   setNoticationMessage
 } from '../notifications/notificationsActions';
+import PageTitle from '../ui/pageTitle';
 
 class AchievementsPage extends Component {
   constructor(props) {
@@ -49,100 +50,102 @@ class AchievementsPage extends Component {
     const newAchievements = this.state.achievements;
 
     return (
-      <Container>
-        <Row
-          style={{
-            paddingBottom: 64 + 'px'
-          }}
-        >
-          <List
+      <PageTitle title="Achievements">
+        <Container>
+          <Row
             style={{
-              width: 100 + '%'
+              paddingBottom: 64 + 'px'
             }}
           >
-            {achievements.map(achievement =>
-              <span key={achievement.id}>
-                <ListItem
-                  primaryText={
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column'
-                      }}
-                    >
-                      <div>{achievement.title}</div>
-                      <SelectField
-                        floatingLabelText="Gewinner:"
-                        hintText="Benutzer auswählen"
-                        value={
-                          newAchievements.find(a => a.id === achievement.id)
-                            ? getUser(
-                                newAchievements.find(
-                                  a => a.id === achievement.id
-                                ).userId
-                              ).id
-                            : achievement.userId > -1
-                              ? getUser(achievement.userId).id
-                              : null
-                        }
-                        floatingLabelFixed={true}
-                        onChange={(e, i, v) =>
-                          this.userChangedHandler(v, achievement)}
-                        fullWidth
+            <List
+              style={{
+                width: 100 + '%'
+              }}
+            >
+              {achievements.map(achievement =>
+                <span key={achievement.id}>
+                  <ListItem
+                    primaryText={
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column'
+                        }}
                       >
-                        {users.map(user =>
-                          <MenuItem
-                            style={{
-                              paddingTop: 8 + 'px',
-                              paddingBottom: 8 + 'px'
-                            }}
-                            key={user.id}
-                            value={user.id}
-                            label={user.nickname}
-                            primaryText={
-                              <div
-                                style={{
-                                  display: 'flex',
-                                  alignItems: 'center'
-                                }}
-                              >
-                                <Avatar src={user.image} />
-                                <span
+                        <div>{achievement.title}</div>
+                        <SelectField
+                          floatingLabelText="Gewinner:"
+                          hintText="Benutzer auswählen"
+                          value={
+                            newAchievements.find(a => a.id === achievement.id)
+                              ? getUser(
+                                  newAchievements.find(
+                                    a => a.id === achievement.id
+                                  ).userId
+                                ).id
+                              : achievement.userId > -1
+                                ? getUser(achievement.userId).id
+                                : null
+                          }
+                          floatingLabelFixed={true}
+                          onChange={(e, i, v) =>
+                            this.userChangedHandler(v, achievement)}
+                          fullWidth
+                        >
+                          {users.map(user =>
+                            <MenuItem
+                              style={{
+                                paddingTop: 8 + 'px',
+                                paddingBottom: 8 + 'px'
+                              }}
+                              key={user.id}
+                              value={user.id}
+                              label={user.nickname}
+                              primaryText={
+                                <div
                                   style={{
-                                    paddingLeft: 16 + 'px',
-                                    paddingRight: 16 + 'px'
+                                    display: 'flex',
+                                    alignItems: 'center'
                                   }}
                                 >
-                                  {user.nickname}
-                                </span>
-                              </div>
-                            }
-                          />
-                        )}
-                      </SelectField>
-                    </div>
-                  }
-                />
-                <Divider />
-              </span>
-            )}
-          </List>
-        </Row>
-        <FloatingActionButton
-          style={{
-            position: 'fixed',
-            bottom: 16 + 'px',
-            right: 16 + 'px',
-            zIndex: 999
-          }}
-          onTouchTap={e => {
-            e.preventDefault();
-            submitAchievements(newAchievements);
-          }}
-        >
-          <DoneIcon />
-        </FloatingActionButton>
-      </Container>
+                                  <Avatar src={user.image} />
+                                  <span
+                                    style={{
+                                      paddingLeft: 16 + 'px',
+                                      paddingRight: 16 + 'px'
+                                    }}
+                                  >
+                                    {user.nickname}
+                                  </span>
+                                </div>
+                              }
+                            />
+                          )}
+                        </SelectField>
+                      </div>
+                    }
+                  />
+                  <Divider />
+                </span>
+              )}
+            </List>
+          </Row>
+          <FloatingActionButton
+            style={{
+              position: 'fixed',
+              bottom: 16 + 'px',
+              right: 16 + 'px',
+              zIndex: 999
+            }}
+            onTouchTap={e => {
+              e.preventDefault();
+              submitAchievements(newAchievements);
+            }}
+          >
+            <DoneIcon />
+          </FloatingActionButton>
+        </Container>
+      </PageTitle>
     );
   }
 }

@@ -16,6 +16,7 @@ import {
   getFilteredTransactionsForActiveUser
 } from './transactionsUtils';
 import { setTransactionsFilter } from './transactionsActions';
+import PageTitle from '../ui/pageTitle';
 
 const TransactionsPage = ({
   userTransactions,
@@ -26,61 +27,63 @@ const TransactionsPage = ({
   history
 }) =>
   <PageWarning users>
-    <Container>
-      <Row>
-        <Col>
-          <TransactionsFilter
-            value={filter}
-            onChangeHandler={(e, i, v) => {
-              e.preventDefault();
-              setFilter(v);
-            }}
-          />
-        </Col>
-      </Row>
-      <Row
-        style={{
-          paddingBottom: 64 + 'px'
-        }}
-      >
-        <List style={{ width: 100 + '%' }}>
-          {[...userTransactions].reverse().map(transaction => {
-            const { id, senderId, receiverId, ammount } = transaction;
-            const sender = getUser(senderId);
-            const receiver = getUser(receiverId);
-            const itemProps = {
-              activeUserId,
-              sender,
-              receiver,
-              ammount,
-              id,
-              history
-            };
+    <PageTitle title="Konto">
+      <Container>
+        <Row>
+          <Col>
+            <TransactionsFilter
+              value={filter}
+              onChangeHandler={(e, i, v) => {
+                e.preventDefault();
+                setFilter(v);
+              }}
+            />
+          </Col>
+        </Row>
+        <Row
+          style={{
+            paddingBottom: 64 + 'px'
+          }}
+        >
+          <List style={{ width: 100 + '%' }}>
+            {[...userTransactions].reverse().map(transaction => {
+              const { id, senderId, receiverId, ammount } = transaction;
+              const sender = getUser(senderId);
+              const receiver = getUser(receiverId);
+              const itemProps = {
+                activeUserId,
+                sender,
+                receiver,
+                ammount,
+                id,
+                history
+              };
 
-            return (
-              <span key={id}>
-                <TransactionsListItem {...itemProps} />
-                <Divider />
-              </span>
-            );
-          })}
-        </List>
-      </Row>
-      <FloatingActionButton
-        style={{
-          position: 'fixed',
-          bottom: 16 + 'px',
-          right: 16 + 'px',
-          zIndex: 999
-        }}
-        onTouchTap={e => {
-          e.preventDefault();
-          history.push('/transactions/add');
-        }}
-      >
-        <ContentAdd />
-      </FloatingActionButton>
-    </Container>
+              return (
+                <span key={id}>
+                  <TransactionsListItem {...itemProps} />
+                  <Divider />
+                </span>
+              );
+            })}
+          </List>
+        </Row>
+        <FloatingActionButton
+          style={{
+            position: 'fixed',
+            bottom: 16 + 'px',
+            right: 16 + 'px',
+            zIndex: 999
+          }}
+          onTouchTap={e => {
+            e.preventDefault();
+            history.push('/transactions/add');
+          }}
+        >
+          <ContentAdd />
+        </FloatingActionButton>
+      </Container>
+    </PageTitle>
   </PageWarning>;
 
 TransactionsPage.propTypes = {

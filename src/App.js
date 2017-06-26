@@ -17,7 +17,7 @@ const App = props =>
       <Route exact path="/" component={Home} />
       <Route path="/users" component={Users} />
       <Route path="/categories" component={Categories} />
-      <Route exact path="/tasks" component={Tasks} />
+      <Route path="/tasks" component={Tasks} />
       <Route path="/achievements" component={Achievements} />
       <Route path="/results" component={Results} />
       <Switch>
