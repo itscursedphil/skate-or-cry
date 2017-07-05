@@ -1,13 +1,27 @@
+import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const HomePage = ({ activeUserId, activeCategoryId, history }) => {
   if (activeUserId < 0) {
-    history.push('/users');
+    <Redirect
+      to={{
+        pathname: '/users'
+      }}
+    />;
   } else if (activeCategoryId < 0) {
-    history.push('/categories');
+    <Redirect
+      to={{
+        pathname: '/categories'
+      }}
+    />;
   } else {
-    history.push('/tasks');
+    <Redirect
+      to={{
+        pathname: '/tasks'
+      }}
+    />;
   }
   return null;
 };

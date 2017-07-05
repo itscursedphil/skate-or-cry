@@ -12,6 +12,7 @@ import EditorList from 'material-ui/svg-icons/editor/format-list-bulleted';
 import SocialCake from 'material-ui/svg-icons/social/cake';
 import CreditCard from 'material-ui/svg-icons/action/credit-card';
 import StarIcon from 'material-ui/svg-icons/action/grade';
+import LogoutIcon from 'material-ui/svg-icons/notification/do-not-disturb';
 import MenuItem from './menuItem';
 import { getActiveUserId, getActiveUser } from '../users/usersUtils';
 import { connect } from 'react-redux';
@@ -55,14 +56,6 @@ class MenuComponent extends Component {
     const { activeUserId, activeUser, title } = this.props;
     const { open } = this.state;
     const page = window.location.pathname;
-
-    // if (/users/.test(page)) title = 'Benutzer';
-    // if (/categories/.test(page)) title = 'Kategorien';
-    // if (/tasks/.test(page)) title = 'Aufgaben';
-    // if (/achievements/.test(page)) title = 'Achievements';
-    // if (/results/.test(page)) title = 'Ergebnisse';
-    // if (/transactions/.test(page)) title = 'Konto';
-    // if (/transactions\/add/.test(page)) title = 'Bezahlung';
 
     return (
       <div>
@@ -145,6 +138,13 @@ class MenuComponent extends Component {
               label="Ergebnisse"
               onClick={this.handleClose}
               icon={<SocialCake />}
+            />
+            <Divider />
+            <MenuItem
+              link="/logout"
+              label="Logout"
+              onClick={this.handleClose}
+              icon={<LogoutIcon />}
             />
           </div>
         </Drawer>

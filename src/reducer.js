@@ -6,6 +6,7 @@ import tasks from './tasks/tasksReducer';
 import notifications from './notifications/notificationsReducer';
 import transactions from './transactions/transactionsReducer';
 import achievements from './achievements/achievementsReducer';
+import authentication from './authentication/authenticationReducer';
 
 const inititalState = {
   pageTitle: ''
@@ -31,7 +32,8 @@ const reducer = combineReducers({
   tasks,
   notifications,
   transactions,
-  achievements
+  achievements,
+  authentication
 });
 
 export default reducer;
