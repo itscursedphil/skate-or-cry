@@ -1,12 +1,14 @@
 import API from '../api.json';
-import { UPDATE_ACHIEVEMENTS } from './achievementsActions';
+import { UPDATE_ACHIEVEMENTS, ADD_ACHIEVEMENT } from './achievementsActions';
 
-const initialState = [...API.achievements].sort((a, b) => a.id - b.id);
-
-console.log(initialState);
+// const initialState = [...API.achievements].sort((a, b) => a.id - b.id);
+const initialState = [];
 
 const achievements = (state = initialState, action) => {
   switch (action.type) {
+    case ADD_ACHIEVEMENT:
+      return [...state, { ...action.payload }];
+
     case UPDATE_ACHIEVEMENTS:
       return [
         ...state.filter(

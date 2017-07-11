@@ -1,13 +1,24 @@
-import { SELECT_CATEGORY } from './categoriesActions';
+import { SELECT_CATEGORY, ADD_CATEGORY } from './categoriesActions';
 import API from '../api.json';
 
+// const initialState = {
+//   all: API.categories,
+//   active: -1
+// };
+
 const initialState = {
-  all: API.categories,
+  all: [],
   active: -1
 };
 
 const categories = (state = initialState, action) => {
   switch (action.type) {
+    case ADD_CATEGORY:
+      return {
+        ...state,
+        all: [...state.all, { ...action.payload }]
+      };
+
     case SELECT_CATEGORY:
       return {
         ...state,

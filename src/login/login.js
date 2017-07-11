@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isAuthenticated } from '../authentication/authenticationUtils';
-import { loginUser } from '../authentication/authenticationActions';
+import { loginUserRequest } from '../authentication/authenticationActions';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class LoginPage extends Component {
     //   ...this.state,
     //   sending: true
     // });
-    this.props.loginUser(this.username, this.password);
+    this.props.loginUserRequest(this.username, this.password);
   }
 
   render() {
@@ -72,7 +72,7 @@ class LoginPage extends Component {
 LoginPage.propTypes = {
   authenticated: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
-  loginUser: PropTypes.func.isRequired
+  loginUserRequest: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -81,20 +81,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loginUser: (username, password) =>
-      fetch('/api/login', {
-        method: 'post',
-        body: `user=${username}&password=${password}`,
-        credentials: 'same-origin'
-      })
-        .then(res => {
-          console.log(res);
-          if (res.status === 200) dispatch(loginUser(username));
-        })
-        .catch(err => console.log(err))
-  };
+const mapDispatchToProps = {
+  loginUserRequest
 };
 
 const Login = connect(mapStateToProps, mapDispatchToProps)(LoginPage);

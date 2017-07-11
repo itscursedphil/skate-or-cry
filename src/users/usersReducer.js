@@ -1,22 +1,33 @@
 import {
+  ADD_USER,
   SELECT_USER,
   SET_USER_TASK_COMPLETED,
   SET_USER_TASK_UNCOMPLETED
 } from './usersActions';
 import API from '../api.json';
 
-const initialState = {
-  all: API.users.sort((nameA, nameB) => {
-    const nicknameA = nameA.nickname;
-    const nicknameB = nameB.nickname;
+// const initialState = {
+//   all: API.users.sort((nameA, nameB) => {
+//     const nicknameA = nameA.nickname;
+//     const nicknameB = nameB.nickname;
+//
+//     return nicknameA > nicknameB;
+//   }),
+//   active: -1
+// };
 
-    return nicknameA > nicknameB;
-  }),
+const initialState = {
+  all: [],
   active: -1
 };
 
 const users = (state = initialState, action) => {
   switch (action.type) {
+    case ADD_USER:
+      return {
+        ...state,
+        all: [...state.all, action.payload]
+      };
     case SELECT_USER:
       return {
         ...state,
@@ -30,8 +41,8 @@ const users = (state = initialState, action) => {
           if (user.id !== action.payload.userId) return user;
           return {
             ...user,
-            completed: [
-              ...user.completed,
+            completedTasks: [
+              ...user.completedTasks,
               {
                 id: action.payload.taskId,
                 points: action.payload.points
@@ -48,7 +59,7 @@ const users = (state = initialState, action) => {
           if (user.id !== action.payload.userId) return user;
           return {
             ...user,
-            completed: user.completed.filter(
+            completedTasks: user.completedTasks.filter(
               task => task.id !== action.payload.taskId
             )
           };

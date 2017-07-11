@@ -236,7 +236,14 @@ TransactionAddPage.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     submitTransaction: (senderId, receiverId, ammount, comment, history) => {
-      dispatch(addTransaction(senderId, receiverId, ammount * 1.0, comment));
+      dispatch(
+        addTransaction({
+          senderId,
+          receiverId,
+          ammount: ammount * 1.0,
+          comment
+        })
+      );
       history.push('/transactions');
     }
   };

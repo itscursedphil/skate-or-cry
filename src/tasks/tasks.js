@@ -53,8 +53,7 @@ const TasksPage = ({
           >
             {tasks.map(task => {
               const isCompleted =
-                user.completed.filter(c => c.id === task.id).length > 0;
-
+                user.completedTasks.filter(c => c.id === task.id).length > 0;
               if (
                 filter === 'all' ||
                 (filter === 'completed' && isCompleted) ||

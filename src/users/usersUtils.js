@@ -4,7 +4,7 @@ export const getUserById = (state, id) =>
   getUsers(state).find(user => user.id === id);
 
 export const getUserCompletedTasks = (state, userId) => [
-  ...getUserById(state, userId).completed
+  ...getUserById(state, userId).completedTasks
 ];
 
 export const getActiveUserCompletedTasks = state =>

@@ -103,7 +103,7 @@ const mapStateToProps = state => {
   return {
     users: state.users.all,
     getUserPoints: user => {
-      const tasksPoints = user.completed
+      const tasksPoints = user.completedTasks
         .map(task => task.points)
         .reduce((acc, val) => acc + val * 1.0, 0);
       const transactionsPoints = getReceivedTransactionsForUserId(

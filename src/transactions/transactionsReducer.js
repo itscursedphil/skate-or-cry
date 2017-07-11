@@ -5,8 +5,13 @@ import {
 } from './transactionsActions';
 import API from '../api.json';
 
+// const initialState = {
+//   all: API.transactions,
+//   filter: 'all'
+// };
+
 const initialState = {
-  all: API.transactions,
+  all: [],
   filter: 'all'
 };
 

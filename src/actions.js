@@ -1,4 +1,5 @@
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
+export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
 
 export const setPageTitle = title => {
   return {
@@ -8,3 +9,11 @@ export const setPageTitle = title => {
     }
   };
 };
+
+export const dispatchToServer = dispatch => action =>
+  dispatch({
+    ...action,
+    meta: {
+      sender: 'client'
+    }
+  });

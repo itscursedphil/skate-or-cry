@@ -1,16 +1,16 @@
-import { LOGIN_USER, LOGOUT_USER } from './authenticationActions';
+import { LOGIN_USER_SUCCESS, LOGOUT_USER } from './authenticationActions';
 
 const initialState = {
   authenticated: false,
   username: null
 };
 
-const isUserAuthenticated = action =>
-  action.payload.username === 'schlong' && action.payload.password === 'skate';
+// const isUserAuthenticated = action =>
+//   action.payload.username === 'schlong' && action.payload.password === 'skate';
 
 const authentication = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_USER:
+    case LOGIN_USER_SUCCESS:
       return {
         ...state,
         authenticated: true,

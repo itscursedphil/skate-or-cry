@@ -11,8 +11,15 @@ import reducer from './reducer';
 import registerServiceWorker from './registerServiceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
+import authenticationMiddleware from './authentication/authenticationMiddleware';
+import socketMiddleware from './socketMiddleware';
 
-let store = createStore(reducer, composeWithDevTools(applyMiddleware(logger)));
+let store = createStore(
+  reducer,
+  composeWithDevTools(
+    applyMiddleware(authenticationMiddleware(), socketMiddleware(), logger)
+  )
+);
 
 injectTapEventPlugin();
 
@@ -26,7 +33,9 @@ ReactDOM.render(
 );
 registerServiceWorker();
 
-// const preloader = document.getElementById('preloader');
-// window.addEventListener('load', () =>
-//   setTimeout(() => (preloader.style.display = 'none'), 2000)
-// );
+if (process.env.NODE_ENV !== 'development') {
+  const preloader = document.getElementById('preloader');
+  window.addEventListener('load', () =>
+    setTimeout(() => (preloader.style.display = 'none'), 2000)
+  );
+}
