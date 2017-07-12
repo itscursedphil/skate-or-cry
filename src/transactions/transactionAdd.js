@@ -15,6 +15,7 @@ import randomSwearWord from '../ui/randomSwearWord';
 import { addTransaction } from './transactionsActions';
 import Subtitle from '../ui/subtitle';
 import PageTitle from '../ui/pageTitle';
+import { dispatchToServer } from '../actions';
 
 class TransactionAddPage extends Component {
   constructor(props) {
@@ -236,12 +237,13 @@ TransactionAddPage.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     submitTransaction: (senderId, receiverId, ammount, comment, history) => {
-      dispatch(
+      dispatchToServer(dispatch)(
         addTransaction({
           senderId,
           receiverId,
           ammount: ammount * 1.0,
-          comment
+          comment,
+          timestamp: Date.now()
         })
       );
       history.push('/transactions');

@@ -11,14 +11,23 @@ export const setTransactionsFilter = filter => {
   };
 };
 
-export const addTransaction = ({ senderId, receiverId, ammount, comment }) => {
+export const addTransaction = ({
+  senderId,
+  receiverId,
+  ammount,
+  comment,
+  timestamp,
+  id
+}) => {
   return {
     type: ADD_TRANSACTION,
     payload: {
       senderId,
       receiverId,
       ammount,
-      comment
+      comment,
+      timestamp,
+      id
     }
   };
 };

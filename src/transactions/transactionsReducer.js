@@ -29,12 +29,12 @@ const transactions = (state = initialState, action) => {
         all: [
           ...state.all,
           {
-            id: state.all.length + 1,
+            id: action.payload.id,
             ammount: action.payload.ammount,
             senderId: action.payload.senderId,
             receiverId: action.payload.receiverId,
             comment: action.payload.comment,
-            timestamp: Date.now()
+            timestamp: action.payload.timestamp
           }
         ]
       };

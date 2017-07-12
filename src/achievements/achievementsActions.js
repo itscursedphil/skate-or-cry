@@ -16,8 +16,6 @@ export const addAchievement = ({ title, points, userId, id }) => {
 export const updateAchievements = achievements => {
   return {
     type: UPDATE_ACHIEVEMENTS,
-    payload: {
-      achievements
-    }
+    payload: [...achievements]
   };
 };

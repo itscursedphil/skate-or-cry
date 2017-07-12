@@ -28,7 +28,9 @@ const PageWarningComponent = ({
   activeCategoryId,
   children
 }) => {
-  return children;
+  if (process.env.NODE_ENV === 'development') {
+    return children;
+  }
   if ((users && activeUserId < 0) || (categories && activeCategoryId < 0)) {
     const text = users && activeUserId < 0
       ? 'nen Benutzer'

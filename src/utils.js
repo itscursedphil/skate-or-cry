@@ -1,6 +1,14 @@
-const getUsers = state => [...state.users];
-const getTasks = state => [...state.tasks];
-const getTransactions = state => [...state.transactions];
-const getCategories = state => [...state.categories];
+import config from './config';
+import moment from 'moment';
 
-export { getUsers, getTasks, getTransactions, getCategories };
+export const getUsers = state => [...state.users];
+export const getTasks = state => [...state.tasks];
+export const getTransactions = state => [...state.transactions];
+export const getCategories = state => [...state.categories];
+
+export const endDateIsToday = () => {
+  const { endDate } = config;
+  const today = moment().startOf('day');
+
+  return endDate.isSame(moment().startOf('day'));
+};

@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Row, Col } from 'reactstrap';
-import { getAchievements } from './achievementsUtils';
+import {
+  getAchievements,
+  getUpdatedAchievementsState
+} from './achievementsUtils';
 import { getUsers, getUserById } from '../users/usersUtils';
 import Divider from 'material-ui/Divider';
 import { List } from 'material-ui/List';
@@ -18,6 +21,7 @@ import {
   setNoticationMessage
 } from '../notifications/notificationsActions';
 import PageTitle from '../ui/pageTitle';
+import { dispatchToServer } from '../actions';
 
 class AchievementsPage extends Component {
   constructor(props) {
@@ -139,7 +143,18 @@ class AchievementsPage extends Component {
             }}
             onTouchTap={e => {
               e.preventDefault();
-              submitAchievements(newAchievements);
+              console.log(
+                getUpdatedAchievementsState(
+                  this.props.achievements,
+                  this.state.achievements
+                )
+              );
+              submitAchievements(
+                getUpdatedAchievementsState(
+                  this.props.achievements,
+                  this.state.achievements
+                )
+              );
             }}
           >
             <DoneIcon />
@@ -168,7 +183,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     submitAchievements: achievements => {
-      dispatch(updateAchievements(achievements));
+      dispatchToServer(dispatch)(updateAchievements(achievements));
       dispatch(setNoticationMessage(`Achievements wurden aktualisiert`));
       dispatch(openNotification());
     }

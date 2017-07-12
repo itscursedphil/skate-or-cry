@@ -9,23 +9,27 @@ import Results from './results/results';
 import Transactions from './transactions/transactions';
 import TransactionAdd from './transactions/transactionAdd';
 import TransactionSingle from './transactions/transactionSingle';
+import Roulette from './roulette/roulette';
 import Achievements from './achievements/achievements';
 import Login from './login/login';
 import Logout from './logout/logout';
 import PrivateRoute from './privateRoute/privateRoute';
+import { endDateIsToday } from './utils';
 
 const App = props =>
   <Router>
     <Layout>
       <Switch>
-        <Route exact path="/" component={Home} />
+        <PrivateRoute exact path="/" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/logout" component={Logout} />
         <PrivateRoute path="/users" component={Users} />
         <PrivateRoute path="/categories" component={Categories} />
         <PrivateRoute path="/tasks" component={Tasks} />
+        <PrivateRoute path="/roulette" component={Roulette} />
         <PrivateRoute path="/achievements" component={Achievements} />
-        <PrivateRoute path="/results" component={Results} />
+        {(endDateIsToday() || process.env.NODE_ENV === 'development') &&
+          <PrivateRoute path="/results" component={Results} />}
         <Switch>
           <PrivateRoute exact path="/transactions" component={Transactions} />
           <PrivateRoute

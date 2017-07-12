@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 import authenticationMiddleware from './authentication/authenticationMiddleware';
 import socketMiddleware from './socketMiddleware';
+import { loginUserSuccess } from './authentication/authenticationActions';
 
 let store = createStore(
   reducer,
@@ -20,6 +21,21 @@ let store = createStore(
     applyMiddleware(authenticationMiddleware(), socketMiddleware(), logger)
   )
 );
+
+if (process.env.NODE_ENV === 'production') {
+  fetch('/api/session', {
+    method: 'get',
+    credentials: 'same-origin'
+  })
+    .then(res => {
+      if (res.status !== 200) return console.log(res);
+      const data = res.json();
+      store.dispatch(loginUserSuccess(data.username));
+    })
+    .catch(err => console.log(err));
+} else {
+  store.dispatch(loginUserSuccess('schlong'));
+}
 
 injectTapEventPlugin();
 
@@ -33,9 +49,11 @@ ReactDOM.render(
 );
 registerServiceWorker();
 
-if (process.env.NODE_ENV !== 'development') {
-  const preloader = document.getElementById('preloader');
+const preloader = document.getElementById('preloader');
+if (process.env.NODE_ENV === 'production') {
   window.addEventListener('load', () =>
     setTimeout(() => (preloader.style.display = 'none'), 2000)
   );
+} else {
+  preloader.style.display = 'none';
 }

@@ -10,9 +10,9 @@ import { addAchievement } from './achievements/achievementsActions';
 import { SET_INITIAL_STATE } from './actions';
 
 const socketMiddleware = () => {
-  return ({ dispatch }) => next => action => {
-    let socket;
+  let socket;
 
+  return ({ dispatch }) => next => action => {
     const initialize = () => {
       console.log('Creating socket connection');
       socket = new WebSocket('ws://martingawlita.dyndns.org/');
@@ -33,7 +33,18 @@ const socketMiddleware = () => {
       } = action.payload;
       transactions.map(transaction => dispatch(addTransaction(transaction)));
       categories.map(category => dispatch(addCategory(category)));
-      users.map(user => dispatch(addUser(user)));
+      users.map(user => {
+        if (user.name === 'Philip Plagge') {
+          return dispatch(
+            addUser({
+              ...user,
+              nickname: 'Schlong'
+            })
+          );
+        } else {
+          return dispatch(addUser(user));
+        }
+      });
       tasks.map(task => dispatch(addTask(task)));
       achievements.map(achievement => dispatch(addAchievement(achievement)));
     };
@@ -63,6 +74,8 @@ const socketMiddleware = () => {
     } else if (action.type === LOGOUT_USER) {
       return close();
     } else if (action.meta && action.meta.sender === 'client') {
+      console.log('Dispatching to server');
+      console.log(action);
       return socket.send(
         JSON.stringify({
           type: action.type,

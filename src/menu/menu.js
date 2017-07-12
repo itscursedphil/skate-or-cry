@@ -12,12 +12,13 @@ import EditorList from 'material-ui/svg-icons/editor/format-list-bulleted';
 import SocialCake from 'material-ui/svg-icons/social/cake';
 import CreditCard from 'material-ui/svg-icons/action/credit-card';
 import StarIcon from 'material-ui/svg-icons/action/grade';
+import DiceIcon from 'material-ui/svg-icons/places/casino';
 import LogoutIcon from 'material-ui/svg-icons/notification/do-not-disturb';
 import MenuItem from './menuItem';
 import { getActiveUserId, getActiveUser } from '../users/usersUtils';
 import { connect } from 'react-redux';
 import Avatar from 'material-ui/Avatar';
-
+import { endDateIsToday } from '../utils';
 class MenuComponent extends Component {
   constructor(props) {
     super(props);
@@ -120,6 +121,13 @@ class MenuComponent extends Component {
             />
             <Divider />
             <MenuItem
+              link="/roulette"
+              label="Roulette"
+              onClick={this.handleClose}
+              icon={<DiceIcon />}
+            />
+            <Divider />
+            <MenuItem
               link="/achievements"
               label="Achievements"
               onClick={this.handleClose}
@@ -133,12 +141,13 @@ class MenuComponent extends Component {
               icon={<CreditCard />}
             />
             <Divider />
-            <MenuItem
-              link="/results"
-              label="Ergebnisse"
-              onClick={this.handleClose}
-              icon={<SocialCake />}
-            />
+            {(endDateIsToday() || process.env.NODE_ENV === 'development') &&
+              <MenuItem
+                link="/results"
+                label="Ergebnisse"
+                onClick={this.handleClose}
+                icon={<SocialCake />}
+              />}
             <Divider />
             <MenuItem
               link="/logout"

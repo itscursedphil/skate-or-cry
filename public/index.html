@@ -18,15 +18,18 @@
         background-color: black;
         z-index: 9999;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         padding: 40px;
         box-sizing: border-box;
       }
 
-      #preloader img {
+      #preloader img:first-child {
         display: block;
         max-width: 100%;
+        margin-top: 40px;
+        margin-bottom: 40px;
       }
     </style>
   </head>
@@ -35,8 +38,9 @@
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
-    <!-- <div id="preloader">
+    <div id="preloader">
       <img src="%PUBLIC_URL%/logo.jpg" />
-    </div> -->
+      <img src="https://i2.wp.com/cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/fancybox_loading.gif?resize=24%2C24" />
+    </div>
   </body>
 </html>

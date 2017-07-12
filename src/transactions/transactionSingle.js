@@ -15,6 +15,7 @@ import ClearIcon from 'material-ui/svg-icons/content/clear';
 import Dialog from 'material-ui/Dialog';
 import randomSwearWord from '../ui/randomSwearWord';
 import { deleteTransaction } from './transactionsActions';
+import { dispatchToServer } from '../actions';
 
 moment.locale('de');
 
@@ -206,7 +207,7 @@ TransactionSinglePage.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     dispatchDeleteTransaction: id => {
-      dispatch(deleteTransaction(id));
+      dispatchToServer(dispatch)(deleteTransaction(id));
     }
   };
 };

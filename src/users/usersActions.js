@@ -2,6 +2,8 @@ export const ADD_USER = 'ADD_USER';
 export const SELECT_USER = 'SELECT_USER';
 export const SET_USER_TASK_COMPLETED = 'SET_USER_TASK_COMPLETED';
 export const SET_USER_TASK_UNCOMPLETED = 'SET_USER_TASK_UNCOMPLETED';
+export const SET_USER_TASK_FAILED = 'SET_USER_TASK_FAILED';
+export const SET_USER_TASK_UNFAILED = 'SET_USER_TASK_UNFAILED';
 
 export const addUser = ({
   name,
@@ -54,6 +56,27 @@ export const setUserTaskUncompleted = (taskId, userId) => {
     payload: {
       userId,
       taskId
+    }
+  };
+};
+
+export const setUserTaskFailed = (taskId, userId, points) => {
+  return {
+    type: SET_USER_TASK_FAILED,
+    payload: {
+      taskId,
+      userId,
+      points
+    }
+  };
+};
+
+export const setUserTaskUnfailed = (taskId, userId) => {
+  return {
+    type: SET_USER_TASK_UNFAILED,
+    payload: {
+      taskId,
+      userId
     }
   };
 };

@@ -9,15 +9,17 @@ const achievements = (state = initialState, action) => {
     case ADD_ACHIEVEMENT:
       return [...state, { ...action.payload }];
 
+    // case UPDATE_ACHIEVEMENTS:
+    //   return [
+    //     ...state.filter(
+    //       achievement =>
+    //         action.payload.find(a => a.id === achievement.id) === undefined
+    //     ),
+    //     ...action.payload
+    //   ].sort((a, b) => a.id - b.id);
+
     case UPDATE_ACHIEVEMENTS:
-      return [
-        ...state.filter(
-          achievement =>
-            action.payload.achievements.find(a => a.id === achievement.id) ===
-            undefined
-        ),
-        ...action.payload.achievements
-      ].sort((a, b) => a.id - b.id);
+      return [...action.payload];
 
     default:
       return state;

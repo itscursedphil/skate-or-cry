@@ -11,8 +11,20 @@ import Subheader from 'material-ui/Subheader';
 import { getReceivedTransactionsForUserId } from '../transactions/transactionsUtils';
 import { getAchievementsForUserId } from '../achievements/achievementsUtils';
 import PageTitle from '../ui/pageTitle';
+import { Redirect } from 'react-router-dom';
+import { endDateIsToday } from '../utils';
 
 const ResultsPage = ({ users, getUserPoints }) => {
+  if (!endDateIsToday() && process.env.NODE_ENV !== 'development') {
+    return (
+      <Redirect
+        to={{
+          pathname: '/'
+        }}
+      />
+    );
+  }
+
   const sortedUsers = [...users].sort((userA, userB) => {
     const userAScores = getUserPoints(userA);
     const userBScores = getUserPoints(userB);
@@ -21,28 +33,29 @@ const ResultsPage = ({ users, getUserPoints }) => {
   return (
     <PageTitle title="Ergebnisse">
       <Container>
-        <Row className="flex-colum" style={{ padding: '16px 0 32px 0' }}>
-          <Col xs={12} className="d-flex justify-content-center">
-            <Subheader style={{ textAlign: 'center', paddingLeft: 0 }}>
-              Gewinner:
-            </Subheader>
-          </Col>
-          <Col xs={12} className="d-flex justify-content-center">
-            <Avatar src={sortedUsers[0].image} size={120} />
-          </Col>
-          <Col
-            xs={12}
-            className="d-flex justify-content-center"
-            style={{ marginTop: 16 + 'px' }}
-          >
-            <h3>{sortedUsers[0].nickname}</h3>
-          </Col>
-          <Col xs={12} className="d-flex justify-content-center">
-            <Chip>
-              {getUserPoints(sortedUsers[0])} Pts.
-            </Chip>
-          </Col>
-        </Row>
+        {sortedUsers.length &&
+          <Row className="flex-colum" style={{ padding: '16px 0 32px 0' }}>
+            <Col xs={12} className="d-flex justify-content-center">
+              <Subheader style={{ textAlign: 'center', paddingLeft: 0 }}>
+                Gewinner:
+              </Subheader>
+            </Col>
+            <Col xs={12} className="d-flex justify-content-center">
+              <Avatar src={sortedUsers[0].image} size={120} />
+            </Col>
+            <Col
+              xs={12}
+              className="d-flex justify-content-center"
+              style={{ marginTop: 16 + 'px' }}
+            >
+              <h3>{sortedUsers[0].nickname}</h3>
+            </Col>
+            <Col xs={12} className="d-flex justify-content-center">
+              <Chip>
+                {getUserPoints(sortedUsers[0])} Pts.
+              </Chip>
+            </Col>
+          </Row>}
         <Row>
           <List
             style={{

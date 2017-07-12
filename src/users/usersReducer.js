@@ -2,7 +2,9 @@ import {
   ADD_USER,
   SELECT_USER,
   SET_USER_TASK_COMPLETED,
-  SET_USER_TASK_UNCOMPLETED
+  SET_USER_TASK_UNCOMPLETED,
+  SET_USER_TASK_FAILED,
+  SET_USER_TASK_UNFAILED
 } from './usersActions';
 import API from '../api.json';
 
@@ -57,11 +59,55 @@ const users = (state = initialState, action) => {
         ...state,
         all: state.all.map(user => {
           if (user.id !== action.payload.userId) return user;
+          let deleted = false;
           return {
             ...user,
-            completedTasks: user.completedTasks.filter(
-              task => task.id !== action.payload.taskId
-            )
+            completedTasks: user.completedTasks.filter(task => {
+              const isTask = task.id === action.payload.taskId;
+              const keepTask = !isTask || !(isTask && !deleted);
+              if (isTask) {
+                deleted = true;
+              }
+              return keepTask;
+            })
+          };
+        })
+      };
+
+    case SET_USER_TASK_FAILED:
+      return {
+        ...state,
+        all: state.all.map(user => {
+          if (user.id !== action.payload.userId) return user;
+          return {
+            ...user,
+            failedTasks: [
+              ...user.failedTasks,
+              {
+                id: action.payload.taskId,
+                points: action.payload.points
+              }
+            ]
+          };
+        })
+      };
+
+    case SET_USER_TASK_UNFAILED:
+      return {
+        ...state,
+        all: state.all.map(user => {
+          if (user.id !== action.payload.userId) return user;
+          let deleted = false;
+          return {
+            ...user,
+            failedTasks: user.failedTasks.filter(task => {
+              const isTask = task.id === action.payload.taskId;
+              const keepTask = !isTask || !(isTask && !deleted);
+              if (isTask) {
+                deleted = true;
+              }
+              return keepTask;
+            })
           };
         })
       };
