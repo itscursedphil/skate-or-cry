@@ -116,7 +116,10 @@ const mapStateToProps = state => {
   return {
     users: state.users.all,
     getUserPoints: user => {
-      const tasksPoints = user.completedTasks
+      const completedTasksPoints = user.completedTasks
+        .map(task => task.points)
+        .reduce((acc, val) => acc + val * 1.0, 0);
+      const failedTasksPoints = user.failedTasks
         .map(task => task.points)
         .reduce((acc, val) => acc + val * 1.0, 0);
       const transactionsPoints = getReceivedTransactionsForUserId(
@@ -128,7 +131,12 @@ const mapStateToProps = state => {
       const achievementPoints = getAchievementsForUserId(state, user.id)
         .map(achievement => achievement.points)
         .reduce((acc, val) => acc + val * 1.0, 0);
-      return tasksPoints + transactionsPoints + achievementPoints;
+      return (
+        completedTasksPoints +
+        transactionsPoints +
+        achievementPoints -
+        failedTasksPoints
+      );
     }
   };
 };

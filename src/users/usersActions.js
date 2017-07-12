@@ -4,6 +4,10 @@ export const SET_USER_TASK_COMPLETED = 'SET_USER_TASK_COMPLETED';
 export const SET_USER_TASK_UNCOMPLETED = 'SET_USER_TASK_UNCOMPLETED';
 export const SET_USER_TASK_FAILED = 'SET_USER_TASK_FAILED';
 export const SET_USER_TASK_UNFAILED = 'SET_USER_TASK_UNFAILED';
+export const SET_USER_DAILY_TASK = 'SET_USER_DAILY_TASK';
+export const SET_USER_DAILY_TASK_COMPLETED = 'SET_USER_DAILY_TASK_COMPLETED';
+export const SET_USER_DAILY_TASK_UNCOMPLETED =
+  'SET_USER_DAILY_TASK_UNCOMPLETED';
 
 export const addUser = ({
   name,
@@ -78,5 +82,27 @@ export const setUserTaskUnfailed = (taskId, userId) => {
       taskId,
       userId
     }
+  };
+};
+
+export const setUserDailyTask = (taskId, userId) => {
+  return {
+    type: SET_USER_DAILY_TASK,
+    payload: {
+      taskId,
+      userId
+    }
+  };
+};
+
+export const setUserDailyTaskCompleted = userId => {
+  return {
+    type: SET_USER_DAILY_TASK_COMPLETED
+  };
+};
+
+export const setUserDailyTaskUncompleted = userId => {
+  return {
+    type: SET_USER_DAILY_TASK_UNCOMPLETED
   };
 };

@@ -1,3 +1,10 @@
-const UPDATE_TIMESTAMP = 'UPDATE_TIMESTAMP';
+export const UPDATE_TIMESTAMP = 'UPDATE_TIMESTAMP';
 
-const updateTimestamp = timestamp => null;
+export const updateTimestamp = timestamp => {
+  return {
+    type: UPDATE_TIMESTAMP,
+    payload: {
+      timestamp
+    }
+  };
+};

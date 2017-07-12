@@ -4,7 +4,10 @@ import {
   SET_USER_TASK_COMPLETED,
   SET_USER_TASK_UNCOMPLETED,
   SET_USER_TASK_FAILED,
-  SET_USER_TASK_UNFAILED
+  SET_USER_TASK_UNFAILED,
+  SET_USER_DAILY_TASK,
+  SET_USER_DAILY_TASK_COMPLETED,
+  SET_USER_DAILY_TASK_UNCOMPLETED
 } from './usersActions';
 import API from '../api.json';
 
@@ -108,6 +111,51 @@ const users = (state = initialState, action) => {
               }
               return keepTask;
             })
+          };
+        })
+      };
+
+    case SET_USER_DAILY_TASK:
+      return {
+        ...state,
+        all: state.all.map(user => {
+          if (user.id !== action.payload.userId) return user;
+          return {
+            ...user,
+            dailyTask: {
+              taskId: action.payload.taskId,
+              completed: false
+            }
+          };
+        })
+      };
+
+    case SET_USER_DAILY_TASK_COMPLETED:
+      return {
+        ...state,
+        all: state.all.map(user => {
+          if (user.id !== action.payload.userId) return user;
+          return {
+            ...user,
+            dailyTask: {
+              ...user.dailyTask,
+              completed: true
+            }
+          };
+        })
+      };
+
+    case SET_USER_DAILY_TASK_UNCOMPLETED:
+      return {
+        ...state,
+        all: state.all.map(user => {
+          if (user.id !== action.payload.userId) return user;
+          return {
+            ...user,
+            dailyTask: {
+              ...user.dailyTask,
+              completed: false
+            }
           };
         })
       };

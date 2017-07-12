@@ -149,12 +149,12 @@ class MenuComponent extends Component {
                 icon={<SocialCake />}
               />}
             <Divider />
-            <MenuItem
+            {/* <MenuItem
               link="/logout"
               label="Logout"
               onClick={this.handleClose}
               icon={<LogoutIcon />}
-            />
+            /> */}
           </div>
         </Drawer>
       </div>

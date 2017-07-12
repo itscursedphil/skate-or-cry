@@ -195,10 +195,10 @@ class TasksPage extends Component {
                           onClick={e => {
                             e.preventDefault();
 
-                            if (filter === 'failed')
+                            if (filter === 'failed' && isFailed)
                               return setUserTaskUnfailed(task.id, user.id);
 
-                            if (task.tba)
+                            if (task.tba && !isCompleted)
                               return this.toggleModal(
                                 e,
                                 task.id,

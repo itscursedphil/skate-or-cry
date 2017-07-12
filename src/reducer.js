@@ -7,6 +7,7 @@ import notifications from './notifications/notificationsReducer';
 import transactions from './transactions/transactionsReducer';
 import achievements from './achievements/achievementsReducer';
 import authentication from './authentication/authenticationReducer';
+import roulette from './roulette/rouletteReducer';
 
 const inititalState = {
   pageTitle: ''
@@ -33,7 +34,8 @@ const reducer = combineReducers({
   notifications,
   transactions,
   achievements,
-  authentication
+  authentication,
+  roulette
 });
 
 export default reducer;
