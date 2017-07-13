@@ -11,13 +11,17 @@ export const setPageTitle = title => {
 };
 
 export const dispatchToServer = dispatch => action => {
-  console.log('Transforming action for server, new action:');
   const newAction = {
     ...action,
     meta: {
       sender: 'client'
     }
   };
-  console.log(newAction);
+
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Transforming action for server, new action:');
+    console.log(newAction);
+  }
+
   return dispatch(newAction);
 };
