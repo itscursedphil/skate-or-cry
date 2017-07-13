@@ -15,11 +15,15 @@ import authenticationMiddleware from './authentication/authenticationMiddleware'
 import socketMiddleware from './socketMiddleware';
 import { loginUserSuccess } from './authentication/authenticationActions';
 
+const middlewares = [authenticationMiddleware(), socketMiddleware()];
+
+if (process.env.NODE_ENV === 'development') {
+  middlewares.push(logger);
+}
+
 let store = createStore(
   reducer,
-  composeWithDevTools(
-    applyMiddleware(authenticationMiddleware(), socketMiddleware(), logger)
-  )
+  composeWithDevTools(applyMiddleware(...middlewares))
 );
 
 if (process.env.NODE_ENV === 'production') {

@@ -18,7 +18,7 @@ import MenuItem from './menuItem';
 import { getActiveUserId, getActiveUser } from '../users/usersUtils';
 import { connect } from 'react-redux';
 import Avatar from 'material-ui/Avatar';
-import { endDateIsToday } from '../utils';
+import { todayIsWhileTrip } from '../utils';
 import { darkBlack } from 'material-ui/styles/colors';
 
 class MenuComponent extends Component {
@@ -144,7 +144,7 @@ class MenuComponent extends Component {
               icon={<CreditCard />}
             />
             <Divider />
-            {(endDateIsToday() || process.env.NODE_ENV === 'development') &&
+            {todayIsWhileTrip() &&
               <MenuItem
                 link="/results"
                 label="Ergebnisse"

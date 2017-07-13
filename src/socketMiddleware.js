@@ -16,7 +16,9 @@ const socketMiddleware = () => {
 
   return ({ dispatch }) => next => action => {
     const initialize = () => {
-      console.log('Creating socket connection');
+      if (process.env.NODE_ENV === 'development')
+        console.log('Creating socket connection');
+
       socket = new WebSocket('ws://martingawlita.dyndns.org/');
       socket.onopen = e => console.log(e);
       socket.onmessage = e => transformMessageToAction(e);
@@ -40,8 +42,11 @@ const socketMiddleware = () => {
     };
 
     const setInitialState = () => {
-      console.log('Set initial state');
-      console.log(action);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Set initial state');
+        console.log(action);
+      }
+
       const {
         transactions,
         users,
@@ -75,10 +80,14 @@ const socketMiddleware = () => {
     };
 
     const transformMessageToAction = e => {
-      console.log('Transforming action');
-      console.log('Event:', e);
       const data = JSON.parse(e.data);
-      console.log('Data:', data);
+
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Transforming action');
+        console.log('Event:', e);
+        console.log('Data:', data);
+      }
+
       if (data.meta.success) {
         dispatch({
           type: data.type,
@@ -94,8 +103,11 @@ const socketMiddleware = () => {
     } else if (action.type === LOGOUT_USER) {
       return close();
     } else if (action.meta && action.meta.sender === 'client') {
-      console.log('Dispatching to server');
-      console.log(action);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Dispatching to server');
+        console.log(action);
+      }
+
       return socket.send(
         JSON.stringify({
           type: action.type,

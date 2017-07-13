@@ -22,7 +22,9 @@ const authenticationMiddleware = () => {
   //   store.dispatch(loginUserSuccess('schlong'));
   // }
 
-  console.log('Environment: ', process.env.NODE_ENV);
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Environment: ', process.env.NODE_ENV);
+  }
 
   return ({ dispatch }) => next => action => {
     //Call server if user tries to login

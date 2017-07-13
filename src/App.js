@@ -14,7 +14,7 @@ import Achievements from './achievements/achievements';
 import Login from './login/login';
 import Logout from './logout/logout';
 import PrivateRoute from './privateRoute/privateRoute';
-import { endDateIsToday } from './utils';
+import { todayIsWhileTrip } from './utils';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {
@@ -68,7 +68,7 @@ const App = props =>
           <PrivateRoute path="/tasks" component={Tasks} />
           <PrivateRoute path="/roulette" component={Roulette} />
           <PrivateRoute path="/achievements" component={Achievements} />
-          {(endDateIsToday() || process.env.NODE_ENV === 'development') &&
+          {todayIsWhileTrip() &&
             <PrivateRoute path="/results" component={Results} />}
           <Switch>
             <PrivateRoute exact path="/transactions" component={Transactions} />

@@ -12,10 +12,10 @@ import { getReceivedTransactionsForUserId } from '../transactions/transactionsUt
 import { getAchievementsForUserId } from '../achievements/achievementsUtils';
 import PageTitle from '../ui/pageTitle';
 import { Redirect } from 'react-router-dom';
-import { endDateIsToday } from '../utils';
+import { todayIsWhileTrip } from '../utils';
 
 const ResultsPage = ({ users, getUserPoints }) => {
-  if (!endDateIsToday() && process.env.NODE_ENV !== 'development') {
+  if (!todayIsWhileTrip()) {
     return (
       <Redirect
         to={{
