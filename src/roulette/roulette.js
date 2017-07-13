@@ -21,7 +21,6 @@ import {
   setUserTaskCompleted,
   setUserTaskUncompleted,
   setUserTaskFailed,
-  setUserTaskUnfailed,
   setUserDailyTask,
   setUserDailyTaskCompleted,
   setUserDailyTaskUncompleted
@@ -40,6 +39,7 @@ class RoulettePage extends Component {
     this.toggleModal = this.toggleModal.bind(this);
     this.canGenerateNewTasks = this.canGenerateNewTasks.bind(this);
     this.generateRandomTasks = this.generateRandomTasks.bind(this);
+    this.toggleTask = this.toggleTask.bind(this);
   }
 
   toggleModal(e) {
@@ -65,7 +65,26 @@ class RoulettePage extends Component {
   generateRandomTasks() {
     if (!this.canGenerateNewTasks()) return;
 
-    const { users, tasks, setUserDailyTask, updateTimestamp } = this.props;
+    const {
+      users,
+      tasks,
+      setUserDailyTask,
+      setUserTaskFailed,
+      updateTimestamp,
+      lastUpdated
+    } = this.props;
+
+    if (lastUpdated) {
+      users.map(user => {
+        const isCompleted = user.completedTasks.find(
+          task => task.id === user.dailyTask.taskId
+        ) === undefined
+          ? false
+          : true;
+
+        if (!isCompleted) setUserTaskFailed(user.dailyTask.taskId, user.id, 40);
+      });
+    }
 
     const randomTasks = users.map(user => {
       const { completedTasks } = user;
@@ -87,6 +106,30 @@ class RoulettePage extends Component {
     this.toggleModal();
   }
 
+  toggleTask(e, taskId, userId, points) {
+    e.preventDefault();
+
+    const {
+      users,
+      setUserTaskCompleted,
+      setUserDailyTaskCompleted,
+      setUserTaskUncompleted,
+      setUserDailyTaskUncompleted
+    } = this.props;
+
+    const isCompleted = users
+      .find(user => user.id === userId)
+      .completedTasks.find(task => task.id === taskId);
+
+    if (!isCompleted) {
+      setUserTaskCompleted(taskId, userId, points);
+      setUserDailyTaskCompleted(userId);
+    } else {
+      setUserTaskUncompleted(taskId, userId);
+      setUserDailyTaskUncompleted(userId);
+    }
+  }
+
   render() {
     const { users, tasks, lastUpdated } = this.props;
 
@@ -104,10 +147,27 @@ class RoulettePage extends Component {
                   const dailyTask = tasks.find(
                     task => task.id === user.dailyTask.taskId
                   );
+
+                  if (!dailyTask) return null;
+
+                  const isCompleted = user.completedTasks.find(
+                    task => task.id === user.dailyTask.taskId
+                  ) === undefined
+                    ? false
+                    : true;
+
                   return (
                     <span key={user.id}>
                       <ListItem
-                        leftCheckbox={<Checkbox checked={false} />}
+                        leftCheckbox={<Checkbox checked={isCompleted} />}
+                        onClick={e => {
+                          this.toggleTask(
+                            e,
+                            dailyTask.id,
+                            user.id,
+                            dailyTask.points
+                          );
+                        }}
                         primaryText={
                           <div style={{ paddingRight: 32 + 'px' }}>
                             {user.nickname}
@@ -118,7 +178,7 @@ class RoulettePage extends Component {
                             </span>
                             {dailyTask.title}<br />
                             <Subtitle>
-                              {dailyTask.points}{' '}
+                              <strong>{dailyTask.points} Punkte</strong>{' '}
                               {dailyTask.comment.length
                                 ? ` - ${dailyTask.comment}`
                                 : ''}
@@ -179,46 +239,42 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateTimestamp: timestamp => dispatch(updateTimestamp(timestamp)),
-    setUserTaskCompleted: (taskId, userId, points) =>
-      dispatch(setUserTaskCompleted(taskId, userId, points)),
-    setUserTaskUncompleted: (taskId, userId) =>
-      dispatch(setUserTaskUncompleted(taskId, userId)),
-    setUserTaskFailed: (taskId, userId, points) =>
-      dispatch(setUserTaskFailed(taskId, userId, points)),
-    setUserTaskUnfailed: (taskId, userId) =>
-      dispatch(setUserTaskUnfailed(taskId, userId)),
-    setUserDailyTask: (taskId, userId) =>
-      dispatch(setUserDailyTask(taskId, userId)),
-    setUserDailyTaskCompleted: userId =>
-      dispatch(setUserDailyTaskCompleted(userId)),
-    setUserDailyTaskUncompleted: userId =>
-      dispatch(setUserDailyTaskUncompleted(userId))
-  };
-};
-
 // const mapDispatchToProps = dispatch => {
 //   return {
-//     updateTimestamp: timestamp =>
-//       dispatchToServer(dispatch)(updateTimestamp(timestamp)),
+//     updateTimestamp: timestamp => dispatch(updateTimestamp(timestamp)),
 //     setUserTaskCompleted: (taskId, userId, points) =>
-//       dispatchToServer(dispatch)(setUserTaskCompleted(taskId, userId, points)),
+//       dispatch(setUserTaskCompleted(taskId, userId, points)),
 //     setUserTaskUncompleted: (taskId, userId) =>
-//       dispatchToServer(dispatch)(setUserTaskUncompleted(taskId, userId)),
+//       dispatch(setUserTaskUncompleted(taskId, userId)),
 //     setUserTaskFailed: (taskId, userId, points) =>
-//       dispatchToServer(dispatch)(setUserTaskFailed(taskId, userId, points)),
-//     setUserTaskUnfailed: (taskId, userId) =>
-//       dispatchToServer(dispatch)(setUserTaskUnfailed(taskId, userId)),
+//       dispatch(setUserTaskFailed(taskId, userId, points)),
 //     setUserDailyTask: (taskId, userId) =>
-//       dispatchToServer(dispatch)(setUserDailyTask(taskId, userId)),
+//       dispatch(setUserDailyTask(taskId, userId)),
 //     setUserDailyTaskCompleted: userId =>
-//       dispatchToServer(dispatch)(setUserDailyTaskCompleted(userId)),
+//       dispatch(setUserDailyTaskCompleted(userId)),
 //     setUserDailyTaskUncompleted: userId =>
-//       dispatchToServer(dispatch)(setUserDailyTaskUncompleted(userId))
+//       dispatch(setUserDailyTaskUncompleted(userId))
 //   };
 // };
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateTimestamp: timestamp =>
+      dispatchToServer(dispatch)(updateTimestamp(timestamp)),
+    setUserTaskCompleted: (taskId, userId, points) =>
+      dispatchToServer(dispatch)(setUserTaskCompleted(taskId, userId, points)),
+    setUserTaskUncompleted: (taskId, userId) =>
+      dispatchToServer(dispatch)(setUserTaskUncompleted(taskId, userId)),
+    setUserTaskFailed: (taskId, userId, points) =>
+      dispatchToServer(dispatch)(setUserTaskFailed(taskId, userId, points)),
+    setUserDailyTask: (taskId, userId) =>
+      dispatchToServer(dispatch)(setUserDailyTask(taskId, userId)),
+    setUserDailyTaskCompleted: userId =>
+      dispatchToServer(dispatch)(setUserDailyTaskCompleted(userId)),
+    setUserDailyTaskUncompleted: userId =>
+      dispatchToServer(dispatch)(setUserDailyTaskUncompleted(userId))
+  };
+};
 
 const Roulette = connect(mapStateToProps, mapDispatchToProps)(RoulettePage);
 

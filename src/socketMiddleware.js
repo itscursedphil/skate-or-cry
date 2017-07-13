@@ -7,6 +7,7 @@ import { addCategory } from './categories/categoriesActions';
 import { addUser } from './users/usersActions';
 import { addTask } from './tasks/tasksActions';
 import { addAchievement } from './achievements/achievementsActions';
+import { updateTimestamp } from './roulette/rouletteActions';
 import { SET_INITIAL_STATE } from './actions';
 
 const socketMiddleware = () => {
@@ -29,7 +30,8 @@ const socketMiddleware = () => {
         users,
         categories,
         tasks,
-        achievements
+        achievements,
+        roulette
       } = action.payload;
       transactions.map(transaction => dispatch(addTransaction(transaction)));
       categories.map(category => dispatch(addCategory(category)));
@@ -47,6 +49,7 @@ const socketMiddleware = () => {
       });
       tasks.map(task => dispatch(addTask(task)));
       achievements.map(achievement => dispatch(addAchievement(achievement)));
+      dispatch(updateTimestamp(roulette.timestamp));
     };
 
     const close = () => {

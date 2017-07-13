@@ -15,7 +15,7 @@ export const addUser = ({
   image,
   completedTasks,
   failedTasks,
-  activeDailyTask,
+  dailyTask,
   transactions,
   id
 }) => {
@@ -27,7 +27,7 @@ export const addUser = ({
       image,
       completedTasks,
       failedTasks,
-      activeDailyTask,
+      dailyTask,
       transactions,
       id
     }
@@ -97,12 +97,18 @@ export const setUserDailyTask = (taskId, userId) => {
 
 export const setUserDailyTaskCompleted = userId => {
   return {
-    type: SET_USER_DAILY_TASK_COMPLETED
+    type: SET_USER_DAILY_TASK_COMPLETED,
+    payload: {
+      userId
+    }
   };
 };
 
 export const setUserDailyTaskUncompleted = userId => {
   return {
-    type: SET_USER_DAILY_TASK_UNCOMPLETED
+    type: SET_USER_DAILY_TASK_UNCOMPLETED,
+    payload: {
+      userId
+    }
   };
 };
