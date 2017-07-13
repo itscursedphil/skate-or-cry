@@ -75,12 +75,13 @@ export const setUserTaskFailed = (taskId, userId, points) => {
   };
 };
 
-export const setUserTaskUnfailed = (taskId, userId) => {
+export const setUserTaskUnfailed = (taskId, userId, points) => {
   return {
     type: SET_USER_TASK_UNFAILED,
     payload: {
       taskId,
-      userId
+      userId,
+      points
     }
   };
 };

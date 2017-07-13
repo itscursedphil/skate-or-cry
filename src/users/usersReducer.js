@@ -105,8 +105,10 @@ const users = (state = initialState, action) => {
             ...user,
             failedTasks: user.failedTasks.filter(task => {
               const isTask = task.id === action.payload.taskId;
-              const keepTask = !isTask || !(isTask && !deleted);
-              if (isTask) {
+              const isPoints = task.points === action.payload.points;
+              const keepTask =
+                !isTask || !isPoints || !(isTask && isPoints && !deleted);
+              if (isTask && isPoints) {
                 deleted = true;
               }
               return keepTask;

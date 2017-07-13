@@ -78,7 +78,7 @@ class TasksPage extends Component {
     }
 
     if (!isCompleted) {
-      setUserTaskFailed(taskId, userId, points);
+      setUserTaskFailed(taskId, userId);
     }
   }
 
@@ -99,7 +99,7 @@ class TasksPage extends Component {
     const { setUserTaskFailed } = this.props;
     const { taskId, userId, points } = this.state.activeTask;
 
-    setUserTaskFailed(taskId, userId, points);
+    setUserTaskFailed(taskId, userId);
 
     this.toggleModal(e);
   }
@@ -284,11 +284,11 @@ const mapDispatchToProps = dispatch => {
     setUserTaskUncompleted: (taskId, userId) => {
       dispatchToServer(dispatch)(setUserTaskUncompleted(taskId, userId));
     },
-    setUserTaskFailed: (taskId, userId, points) => {
-      dispatchToServer(dispatch)(setUserTaskFailed(taskId, userId, points));
+    setUserTaskFailed: (taskId, userId) => {
+      dispatchToServer(dispatch)(setUserTaskFailed(taskId, userId, 10));
     },
     setUserTaskUnfailed: (taskId, userId) => {
-      dispatchToServer(dispatch)(setUserTaskUnfailed(taskId, userId));
+      dispatchToServer(dispatch)(setUserTaskUnfailed(taskId, userId, 10));
     },
     setTasksFilter: filter => {
       console.log(filter);

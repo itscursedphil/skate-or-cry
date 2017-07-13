@@ -9,6 +9,7 @@ import { addTask } from './tasks/tasksActions';
 import { addAchievement } from './achievements/achievementsActions';
 import { updateTimestamp } from './roulette/rouletteActions';
 import { SET_INITIAL_STATE } from './actions';
+import { loginUserSuccess } from './authentication/authenticationActions';
 
 const socketMiddleware = () => {
   let socket;
@@ -19,6 +20,22 @@ const socketMiddleware = () => {
       socket = new WebSocket('ws://martingawlita.dyndns.org/');
       socket.onopen = e => console.log(e);
       socket.onmessage = e => transformMessageToAction(e);
+
+      // setInterval(() => {
+      //   if (socket && socket.readyState === 3) {
+      //     fetch('/api/session', {
+      //       method: 'get',
+      //       credentials: 'same-origin'
+      //     })
+      //       .then(res => {
+      //         if (res.status !== 200) return console.log(res);
+      //         const data = res.json();
+      //         dispatch(loginUserSuccess(data.username));
+      //       })
+      //       .catch(err => console.log(err));
+      //   }
+      // }, 1000 * 2);
+
       next(action);
     };
 

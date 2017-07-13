@@ -52,6 +52,8 @@ class RoulettePage extends Component {
   }
 
   canGenerateNewTasks() {
+    if (process.env.NODE_ENV === 'development') return true;
+
     const { lastUpdated } = this.props;
 
     if (lastUpdated === null) return true;
@@ -82,7 +84,7 @@ class RoulettePage extends Component {
           ? false
           : true;
 
-        if (!isCompleted) setUserTaskFailed(user.dailyTask.taskId, user.id, 40);
+        if (!isCompleted) setUserTaskFailed(user.dailyTask.taskId, user.id);
       });
     }
 
@@ -137,7 +139,11 @@ class RoulettePage extends Component {
       <PageTitle title="Roulette">
         <Container>
           {lastUpdated &&
-            <Row>
+            <Row
+              style={{
+                paddingBottom: 64 + 'px'
+              }}
+            >
               <List
                 style={{
                   width: 100 + '%'
@@ -265,8 +271,8 @@ const mapDispatchToProps = dispatch => {
       dispatchToServer(dispatch)(setUserTaskCompleted(taskId, userId, points)),
     setUserTaskUncompleted: (taskId, userId) =>
       dispatchToServer(dispatch)(setUserTaskUncompleted(taskId, userId)),
-    setUserTaskFailed: (taskId, userId, points) =>
-      dispatchToServer(dispatch)(setUserTaskFailed(taskId, userId, points)),
+    setUserTaskFailed: (taskId, userId) =>
+      dispatchToServer(dispatch)(setUserTaskFailed(taskId, userId, 40)),
     setUserDailyTask: (taskId, userId) =>
       dispatchToServer(dispatch)(setUserDailyTask(taskId, userId)),
     setUserDailyTaskCompleted: userId =>
