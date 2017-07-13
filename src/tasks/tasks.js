@@ -25,6 +25,7 @@ import MultiplierTask from './multiplierTask';
 import randomSwearWord from '../ui/randomSwearWord';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
+import { grey500 } from 'material-ui/styles/colors';
 
 class TasksPage extends Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class TasksPage extends Component {
   }
 
   toggleModal(e, taskId, userId, points) {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     this.setState({
       ...this.state,
@@ -237,6 +238,7 @@ class TasksPage extends Component {
                   label="Abbrechen"
                   onTouchTap={this.toggleModal}
                   fullWidth
+                  backgroundColor={grey500}
                 />,
                 <RaisedButton
                   label="Versagt"

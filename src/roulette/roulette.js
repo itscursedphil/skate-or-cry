@@ -214,10 +214,14 @@ class RoulettePage extends Component {
           <Dialog
             title="Würfel rollen"
             actions={[
-              <RaisedButton label="Abbrechen" onTouchTap={this.toggleModal} />,
+              <RaisedButton
+                label="Abbrechen"
+                secondary
+                onTouchTap={this.toggleModal}
+              />,
               <RaisedButton
                 label="Bestätigen"
-                secondary
+                primary
                 onTouchTap={this.generateRandomTasks}
               />
             ]}

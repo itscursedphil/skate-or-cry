@@ -1,13 +1,14 @@
 import React from 'react';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 
-const Subtitle = ({ children }) =>
+const Subtitle = ({ children, muiTheme }) =>
   <span
     style={{
-      color: 'rgba(0, 0, 0, 0.3)',
+      color: muiTheme.palette.disabledColor,
       fontSize: 0.75 + 'em'
     }}
   >
     {children}
   </span>;
 
-export default Subtitle;
+export default muiThemeable()(Subtitle);

@@ -4,23 +4,26 @@ import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import Checkbox from 'material-ui/Checkbox';
+import Subtitle from '../ui/subtitle';
 
-const UsersListItem = (
-  {
-    onClick,
-    nickName,
-    fullName,
-    avatar,
-    checked = false,
-    divider = true
-  }
-) => {
+const UsersListItem = ({
+  onClick,
+  nickName,
+  fullName,
+  avatar,
+  checked = false,
+  divider = true
+}) => {
   return (
     <div>
       <ListItem
         onClick={onClick}
-        primaryText={nickName}
-        secondaryText={fullName}
+        primaryText={
+          <div>
+            {nickName}<br />
+            <Subtitle>{fullName}</Subtitle>
+          </div>
+        }
         rightAvatar={<Avatar src={avatar} />}
         leftCheckbox={<Checkbox checked={checked} />}
       />

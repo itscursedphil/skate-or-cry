@@ -2,6 +2,7 @@ import React from 'react';
 import Avatar from 'material-ui/Avatar';
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 import { ListItem } from 'material-ui/List';
+import Subtitle from '../ui/subtitle';
 
 const TransactionsListItem = ({
   activeUserId,
@@ -26,10 +27,8 @@ const TransactionsListItem = ({
             }
           />
           <div style={{ paddingLeft: 16 + 'px', paddingRight: 16 + 'px' }}>
-            <span
+            <Subtitle
               style={{
-                color: 'rgba(0, 0, 0, 0.3)',
-                fontSize: 0.8 + 'em',
                 marginBottom: 0.4 + 'em',
                 display: 'inline-block'
               }}
@@ -37,7 +36,7 @@ const TransactionsListItem = ({
               {type === 'sent'
                 ? `Gesendet an ${receiver.nickname}`
                 : type === 'received' ? `Erhalten von ${sender.nickname}` : ''}
-            </span>
+            </Subtitle>
             <br />
             {/* <Chip style={{ marginTop: 8 + 'px' }}> */}
             {ammount} Pts.

@@ -19,6 +19,8 @@ import { getActiveUserId, getActiveUser } from '../users/usersUtils';
 import { connect } from 'react-redux';
 import Avatar from 'material-ui/Avatar';
 import { endDateIsToday } from '../utils';
+import { darkBlack } from 'material-ui/styles/colors';
+
 class MenuComponent extends Component {
   constructor(props) {
     super(props);
@@ -86,7 +88,8 @@ class MenuComponent extends Component {
             position: 'fixed',
             top: 0,
             left: 0,
-            zIndex: 1400
+            zIndex: 1400,
+            backgroundColor: darkBlack
           }}
         />
         <Drawer
