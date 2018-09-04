@@ -20,8 +20,8 @@ const socketMiddleware = () => {
         console.log("Creating socket connection");
 
       socket = new WebSocket(
-        "ws://skate-or-cry.northeurope.cloudapp.azure.com/"
-        // "ws://192.168.178.41:80"
+        // "ws://skate-or-cry.northeurope.cloudapp.azure.com/"
+        "ws://192.168.178.41:80"
       );
       socket.onopen = e => console.log(e);
       socket.onmessage = e => transformMessageToAction(e);

@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import AppBar from 'material-ui/AppBar';
-import Drawer from 'material-ui/Drawer';
-import Divider from 'material-ui/Divider';
-import IconButton from 'material-ui/IconButton';
-import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import ActionFace from 'material-ui/svg-icons/action/face';
-import ImageCollections from 'material-ui/svg-icons/image/collections';
-import EditorList from 'material-ui/svg-icons/editor/format-list-bulleted';
-import SocialCake from 'material-ui/svg-icons/social/cake';
-import CreditCard from 'material-ui/svg-icons/action/credit-card';
-import StarIcon from 'material-ui/svg-icons/action/grade';
-import DiceIcon from 'material-ui/svg-icons/places/casino';
-import LogoutIcon from 'material-ui/svg-icons/notification/do-not-disturb';
-import MenuItem from './menuItem';
-import { getActiveUserId, getActiveUser } from '../users/usersUtils';
-import { connect } from 'react-redux';
-import Avatar from 'material-ui/Avatar';
-import { todayIsWhileTrip } from '../utils';
-import { darkBlack } from 'material-ui/styles/colors';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import AppBar from "material-ui/AppBar";
+import Drawer from "material-ui/Drawer";
+import Divider from "material-ui/Divider";
+import IconButton from "material-ui/IconButton";
+import NavigationMenu from "material-ui/svg-icons/navigation/menu";
+import NavigationClose from "material-ui/svg-icons/navigation/close";
+import ActionFace from "material-ui/svg-icons/action/face";
+import ImageCollections from "material-ui/svg-icons/image/collections";
+import EditorList from "material-ui/svg-icons/editor/format-list-bulleted";
+import SocialCake from "material-ui/svg-icons/social/cake";
+import CreditCard from "material-ui/svg-icons/action/credit-card";
+import StarIcon from "material-ui/svg-icons/action/grade";
+import DiceIcon from "material-ui/svg-icons/places/casino";
+import LogoutIcon from "material-ui/svg-icons/notification/do-not-disturb";
+import MenuItem from "./menuItem";
+import { getActiveUserId, getActiveUser } from "../users/usersUtils";
+import { connect } from "react-redux";
+import Avatar from "material-ui/Avatar";
+import { todayIsWhileTrip } from "../utils";
+import { darkBlack } from "material-ui/styles/colors";
 
 class MenuComponent extends Component {
   constructor(props) {
@@ -65,27 +65,29 @@ class MenuComponent extends Component {
         <AppBar
           title={title}
           iconElementLeft={
-            open
-              ? <IconButton>
-                  <NavigationClose />
-                </IconButton>
-              : <IconButton>
-                  <NavigationMenu />
-                </IconButton>
+            open ? (
+              <IconButton>
+                <NavigationClose />
+              </IconButton>
+            ) : (
+              <IconButton>
+                <NavigationMenu />
+              </IconButton>
+            )
           }
           iconElementRight={
             activeUserId > -1 ? <Avatar src={activeUser.image} /> : null
           }
           iconStyleRight={{
-            display: 'flex',
-            alignItems: 'center',
+            display: "flex",
+            alignItems: "center",
             marginTop: 0
           }}
           // onRightIconButtonTouchTap={() => history.push('/users')}
           onLeftIconButtonTouchTap={this.handleToggle}
           zDepth={2}
           style={{
-            position: 'fixed',
+            position: "fixed",
             top: 0,
             left: 0,
             zIndex: 1400,
@@ -99,7 +101,7 @@ class MenuComponent extends Component {
         >
           <div
             style={{
-              marginTop: 64 + 'px'
+              marginTop: 64 + "px"
             }}
           >
             <MenuItem
@@ -144,13 +146,14 @@ class MenuComponent extends Component {
               icon={<CreditCard />}
             />
             <Divider />
-            {todayIsWhileTrip() &&
+            {!todayIsWhileTrip() && (
               <MenuItem
                 link="/results"
                 label="Ergebnisse"
                 onClick={this.handleClose}
                 icon={<SocialCake />}
-              />}
+              />
+            )}
             <Divider />
             {/* <MenuItem
               link="/logout"

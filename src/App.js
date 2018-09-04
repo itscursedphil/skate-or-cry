@@ -68,6 +68,9 @@ const App = props => (
           <PrivateRoute path="/tasks" component={Tasks} />
           <PrivateRoute path="/roulette" component={Roulette} />
           <PrivateRoute path="/achievements" component={Achievements} />
+          {!todayIsWhileTrip() && (
+            <PrivateRoute path="/results" component={Results} />
+          )}
           <Switch>
             <PrivateRoute exact path="/transactions" component={Transactions} />
             <PrivateRoute
@@ -80,9 +83,6 @@ const App = props => (
               component={TransactionSingle}
             />
           </Switch>
-          {!todayIsWhileTrip() && (
-            <PrivateRoute path="/results" component={Results} />
-          )}
         </Switch>
       </Layout>
     </Router>

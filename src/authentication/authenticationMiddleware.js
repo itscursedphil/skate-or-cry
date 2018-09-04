@@ -26,8 +26,8 @@ const authenticationMiddleware = () => {
     //Call server if user tries to login
     if (action.type === LOGIN_USER_REQUEST) {
       return fetch(
-        "/api/login",
-        // "http://192.168.178.41:80/api/login",
+        // "/api/login",
+        "http://192.168.178.41:80/api/login",
         {
           method: "post",
           body: `user=${action.payload.username}&password=${

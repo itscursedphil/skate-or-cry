@@ -16,7 +16,7 @@ import { todayIsWhileTrip } from "../utils";
 import { getTeams } from "../teams/teamsUtils";
 
 const ResultsPage = ({ users, teams, getUserPoints }) => {
-  if (!todayIsWhileTrip()) {
+  if (todayIsWhileTrip()) {
     return (
       <Redirect
         to={{
@@ -74,7 +74,6 @@ const ResultsPage = ({ users, teams, getUserPoints }) => {
               width: 100 + "%"
             }}
           >
-            <Divider />
             {sortedTeams.map((team, i) => (
               <span key={team.team}>
                 <ListItem
@@ -83,7 +82,8 @@ const ResultsPage = ({ users, teams, getUserPoints }) => {
                       style={{
                         width: 100 + "%",
                         display: "flex",
-                        alignItems: "center"
+                        alignItems: "center",
+                        fontWeight: "bold"
                       }}
                     >
                       <span
@@ -104,6 +104,39 @@ const ResultsPage = ({ users, teams, getUserPoints }) => {
                   }
                   // secondaryText={user.name}
                 />
+                {users
+                  .filter(({ team: userTeam }) => userTeam === team.team)
+                  .map(user => (
+                    <ListItem
+                      primaryText={
+                        <span
+                          style={{
+                            width: 100 + "%",
+                            display: "flex",
+                            alignItems: "center",
+                            fontWeight: "normal"
+                          }}
+                        >
+                          <Avatar src={user.image} />
+                          <span
+                            style={{
+                              marginLeft: 16 + "px"
+                            }}
+                          >
+                            {user.nickname}
+                          </span>
+                          <Chip
+                            style={{
+                              marginLeft: "auto"
+                            }}
+                          >
+                            {getUserPoints(user)} Pts.
+                          </Chip>
+                        </span>
+                      }
+                      // secondaryText={user.name}
+                    />
+                  ))}
                 <Divider />
               </span>
             ))}
