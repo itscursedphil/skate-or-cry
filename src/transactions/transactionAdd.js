@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import PageWarning from '../ui/pageWarning';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import { getUsers, getActiveUserId } from '../users/usersUtils';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Avatar from 'material-ui/Avatar';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import Chip from 'material-ui/Chip';
-import { getTransactionsSentTotalForActiveUser } from './transactionsUtils';
-import randomSwearWord from '../ui/randomSwearWord';
-import { addTransaction } from './transactionsActions';
-import Subtitle from '../ui/subtitle';
-import PageTitle from '../ui/pageTitle';
-import { dispatchToServer } from '../actions';
+import React, { Component } from "react";
+import { Container, Row, Col } from "reactstrap";
+import PageWarning from "../ui/pageWarning";
+import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
+import { getUsers, getActiveUserId, getActiveUser } from "../users/usersUtils";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Avatar from "material-ui/Avatar";
+import TextField from "material-ui/TextField";
+import RaisedButton from "material-ui/RaisedButton";
+import Chip from "material-ui/Chip";
+import { getTransactionsSentTotalForActiveUser } from "./transactionsUtils";
+import randomSwearWord from "../ui/randomSwearWord";
+import { addTransaction } from "./transactionsActions";
+import Subtitle from "../ui/subtitle";
+import PageTitle from "../ui/pageTitle";
+import { dispatchToServer } from "../actions";
 
 class TransactionAddPage extends Component {
   constructor(props) {
@@ -24,9 +24,9 @@ class TransactionAddPage extends Component {
     this.state = {
       user: null,
       userError: false,
-      ammount: '',
+      ammount: "",
       ammountError: false,
-      comment: '',
+      comment: "",
       commentError: false
     };
 
@@ -56,8 +56,12 @@ class TransactionAddPage extends Component {
     const prevAmmount = this.state.ammount;
     const { value } = e.target;
     const ammount = isNaN(value)
-      ? ''
-      : value > totalLeft ? prevAmmount : value < 0 ? '' : value;
+      ? ""
+      : value > totalLeft
+        ? prevAmmount
+        : value < 0
+          ? ""
+          : value;
     this.setState({
       ...this.state,
       ammount
@@ -130,17 +134,17 @@ class TransactionAddPage extends Component {
                     errorText={
                       form.userError
                         ? `Du musst einen Benutzer auwählen, du ${randomSwearWord()}!`
-                        : ''
+                        : ""
                     }
                     fullWidth
                   >
                     {[...users]
                       .filter(user => user.id !== activeUserId)
-                      .map((user, i) =>
+                      .map((user, i) => (
                         <MenuItem
                           style={{
-                            paddingTop: 8 + 'px',
-                            paddingBottom: 8 + 'px'
+                            paddingTop: 8 + "px",
+                            paddingBottom: 8 + "px"
                           }}
                           key={user.id}
                           value={user.id}
@@ -148,15 +152,15 @@ class TransactionAddPage extends Component {
                           primaryText={
                             <div
                               style={{
-                                display: 'flex',
-                                alignItems: 'center'
+                                display: "flex",
+                                alignItems: "center"
                               }}
                             >
                               <Avatar src={user.image} />
                               <span
                                 style={{
-                                  paddingLeft: 16 + 'px',
-                                  paddingRight: 16 + 'px'
+                                  paddingLeft: 16 + "px",
+                                  paddingRight: 16 + "px"
                                 }}
                               >
                                 {user.nickname}
@@ -164,7 +168,7 @@ class TransactionAddPage extends Component {
                             </div>
                           }
                         />
-                      )}
+                      ))}
                   </SelectField>
                   <TextField
                     hintText="Betrag eingeben"
@@ -177,22 +181,20 @@ class TransactionAddPage extends Component {
                     errorText={
                       form.ammountError
                         ? `Bist du zu dumm zum rechnen, du ${randomSwearWord()}?`
-                        : ''
+                        : ""
                     }
                     fullWidth
                   />
                   <div
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      marginTop: 8 + 'px'
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginTop: 8 + "px"
                     }}
                   >
                     <Subtitle>Übrig:</Subtitle>
-                    <Chip>
-                      {totalLeft - form.ammount} Pts.
-                    </Chip>
+                    <Chip>{totalLeft - form.ammount} Pts.</Chip>
                   </div>
                   <TextField
                     hintText="Kommentar eingeben"
@@ -203,7 +205,7 @@ class TransactionAddPage extends Component {
                     errorText={
                       form.commentError
                         ? `Und für was soll das jetzt sein, du ${randomSwearWord()}?`
-                        : ''
+                        : ""
                     }
                     fullWidth
                   />
@@ -212,7 +214,7 @@ class TransactionAddPage extends Component {
                     primary={true}
                     fullWidth
                     style={{
-                      marginTop: 16 + 'px'
+                      marginTop: 16 + "px"
                     }}
                     onTouchTap={this.submitHandler}
                   />
@@ -246,21 +248,24 @@ const mapDispatchToProps = dispatch => {
           timestamp: Date.now()
         })
       );
-      history.push('/transactions');
+      history.push("/transactions");
     }
   };
 };
 
 const mapStateToProps = state => {
+  const activeUserTeam = getActiveUser(state).team;
+
   return {
-    users: getUsers(state),
+    users: getUsers(state).filter(({ team }) => team !== activeUserTeam),
     totalLeft: getTransactionsSentTotalForActiveUser(state),
     activeUserId: getActiveUserId(state)
   };
 };
 
-const TransactionAdd = connect(mapStateToProps, mapDispatchToProps)(
-  TransactionAddPage
-);
+const TransactionAdd = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TransactionAddPage);
 
 export default TransactionAdd;

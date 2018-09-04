@@ -17,19 +17,24 @@ import registerServiceWorker from "./registerServiceWorker";
 
 const middlewares = [authenticationMiddleware(), socketMiddleware()];
 
-if (process.env.NODE_ENV === "development") {
-  middlewares.push(logger);
-}
+// if (process.env.NODE_ENV === "development") {
+//   middlewares.push(logger);
+// }
 
 let store = createStore(
   reducer,
   composeWithDevTools(applyMiddleware(...middlewares))
 );
 
-fetch("/api/session", {
-  method: "get",
-  credentials: "same-origin"
-})
+fetch(
+  // "http://192.168.178.41:80/api/session"
+  "/api/session",
+  {
+    method: "get",
+    credentials: "include",
+    mode: "cors"
+  }
+)
   .then(res => {
     if (res.status !== 200) return console.log(res);
     const data = res.json();
@@ -49,3 +54,12 @@ ReactDOM.render(
 );
 
 registerServiceWorker();
+
+const preloader = document.getElementById("preloader");
+if (process.env.NODE_ENV === "production") {
+  window.addEventListener("load", () =>
+    setTimeout(() => (preloader.style.display = "none"), 2000)
+  );
+} else {
+  preloader.style.display = "none";
+}

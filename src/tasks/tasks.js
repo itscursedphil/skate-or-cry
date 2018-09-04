@@ -1,31 +1,32 @@
-import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { List } from 'material-ui/List';
-import { ListItem } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import Checkbox from 'material-ui/Checkbox';
+import React, { Component } from "react";
+import { Container, Row, Col } from "reactstrap";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { List } from "material-ui/List";
+import { ListItem } from "material-ui/List";
+import Divider from "material-ui/Divider";
+import Checkbox from "material-ui/Checkbox";
 import {
   setUserTaskCompleted,
   setUserTaskUncompleted,
   setUserTaskFailed,
   setUserTaskUnfailed
-} from '../users/usersActions';
-import { setTasksFilter } from './tasksActions';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import PageWarning from '../ui/pageWarning';
-import { getTasksForActiveCategory, getTasksFilter } from './tasksUtils';
-import { getActiveUser, getActiveUserId } from '../users/usersUtils';
-import PageTitle from '../ui/pageTitle';
-import { dispatchToServer } from '../actions';
-import SimpleTask from './simpleTask';
-import MultiplierTask from './multiplierTask';
-import randomSwearWord from '../ui/randomSwearWord';
-import RaisedButton from 'material-ui/RaisedButton';
-import Dialog from 'material-ui/Dialog';
-import { grey500 } from 'material-ui/styles/colors';
+} from "../users/usersActions";
+import { setTasksFilter } from "./tasksActions";
+import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
+import PageWarning from "../ui/pageWarning";
+import { getTasksForActiveCategory, getTasksFilter } from "./tasksUtils";
+import { getActiveUser, getActiveUserId } from "../users/usersUtils";
+import { getTeamCompletedTasks } from "../teams/teamsUtils";
+import PageTitle from "../ui/pageTitle";
+import { dispatchToServer } from "../actions";
+import SimpleTask from "./simpleTask";
+import MultiplierTask from "./multiplierTask";
+import randomSwearWord from "../ui/randomSwearWord";
+import RaisedButton from "material-ui/RaisedButton";
+import Dialog from "material-ui/Dialog";
+import { grey500 } from "material-ui/styles/colors";
 
 class TasksPage extends Component {
   constructor(props) {
@@ -109,6 +110,7 @@ class TasksPage extends Component {
     const {
       tasks,
       user,
+      teamCompletedTasks,
       activeUserId,
       setUserTaskCompleted,
       setUserTaskUncompleted,
@@ -117,6 +119,9 @@ class TasksPage extends Component {
       filter,
       setTasksFilter
     } = this.props;
+
+    console.log(teamCompletedTasks);
+
     return (
       <PageWarning users categories>
         <PageTitle title="Aufgaben">
@@ -129,20 +134,20 @@ class TasksPage extends Component {
                   onChange={(e, i, v) => setTasksFilter(v)}
                   fullWidth
                 >
-                  <MenuItem value={'all'} primaryText="Alle" />
+                  <MenuItem value={"all"} primaryText="Alle" />
                   <Divider />
-                  <MenuItem value={'completed'} primaryText="Erledigt" />
+                  <MenuItem value={"completed"} primaryText="Erledigt" />
                   <Divider />
-                  <MenuItem value={'uncompleted'} primaryText="Unerledigt" />
+                  <MenuItem value={"uncompleted"} primaryText="Unerledigt" />
                   <Divider />
-                  <MenuItem value={'failed'} primaryText="Versagt" />
+                  <MenuItem value={"failed"} primaryText="Versagt" />
                 </SelectField>
               </Col>
             </Row>
             <Row>
               <List
                 style={{
-                  width: 100 + '%'
+                  width: 100 + "%"
                 }}
               >
                 {tasks.map(task => {
@@ -154,77 +159,79 @@ class TasksPage extends Component {
                   );
                   const isCompleted = userCompletedTasks.length > 0;
                   const isFailed = userFailedTasks.length > 0;
+
                   if (
-                    filter === 'all' ||
-                    (filter === 'completed' && isCompleted) ||
-                    (filter === 'uncompleted' && !isCompleted) ||
-                    (filter === 'failed' && isFailed)
+                    filter === "all" ||
+                    (filter === "completed" && isCompleted) ||
+                    (filter === "uncompleted" && !isCompleted) ||
+                    (filter === "failed" && isFailed)
                   ) {
-                    return task.multiplier
-                      ? <MultiplierTask
-                          key={task.id}
-                          onIncrement={e => {
-                            e.preventDefault();
-                            this.incrementTask(
+                    return task.multiplier ? (
+                      <MultiplierTask
+                        key={task.id}
+                        onIncrement={e => {
+                          e.preventDefault();
+                          this.incrementTask(
+                            task.id,
+                            user.id,
+                            task.points,
+                            isCompleted,
+                            isFailed
+                          );
+                        }}
+                        onDecrement={e => {
+                          e.preventDefault();
+                          this.decrementTask(
+                            task.id,
+                            user.id,
+                            task.points,
+                            isCompleted,
+                            isFailed
+                          );
+                        }}
+                        title={task.title}
+                        points={task.points}
+                        count={
+                          userCompletedTasks.length - userFailedTasks.length
+                        }
+                        comment={task.comment}
+                        tba={task.tba}
+                      />
+                    ) : (
+                      <SimpleTask
+                        key={task.id}
+                        onClick={e => {
+                          e.preventDefault();
+
+                          if (filter === "failed" && isFailed)
+                            return setUserTaskUnfailed(task.id, user.id);
+
+                          if (task.tba && !isCompleted)
+                            return this.toggleModal(
+                              e,
                               task.id,
                               user.id,
-                              task.points,
-                              isCompleted,
-                              isFailed
+                              task.points
                             );
-                          }}
-                          onDecrement={e => {
-                            e.preventDefault();
-                            this.decrementTask(
-                              task.id,
-                              user.id,
-                              task.points,
-                              isCompleted,
-                              isFailed
-                            );
-                          }}
-                          title={task.title}
-                          points={task.points}
-                          count={
-                            userCompletedTasks.length - userFailedTasks.length
+
+                          if (isCompleted) {
+                            setUserTaskUncompleted(task.id, user.id);
+                          } else {
+                            setUserTaskCompleted(task.id, user.id, task.points);
                           }
-                          comment={task.comment}
-                          tba={task.tba}
-                        />
-                      : <SimpleTask
-                          key={task.id}
-                          onClick={e => {
-                            e.preventDefault();
-
-                            if (filter === 'failed' && isFailed)
-                              return setUserTaskUnfailed(task.id, user.id);
-
-                            if (task.tba && !isCompleted)
-                              return this.toggleModal(
-                                e,
-                                task.id,
-                                user.id,
-                                task.points
-                              );
-
-                            if (isCompleted) {
-                              setUserTaskUncompleted(task.id, user.id);
-                            } else {
-                              setUserTaskCompleted(
-                                task.id,
-                                user.id,
-                                task.points
-                              );
-                            }
-                          }}
-                          title={task.title}
-                          points={task.points}
-                          comment={task.comment}
-                          isChecked={
-                            filter === 'failed' ? isFailed : isCompleted
-                          }
-                          tba={task.tba}
-                        />;
+                        }}
+                        title={task.title}
+                        points={task.points}
+                        comment={task.comment}
+                        isChecked={filter === "failed" ? isFailed : isCompleted}
+                        tba={task.tba}
+                        disabled={
+                          !!teamCompletedTasks.find(
+                            teamTask => teamTask.id === task.id
+                          )
+                        }
+                      />
+                    );
                   } else {
                     return null;
                   }
@@ -300,14 +307,24 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
+  const tasks = getTasksForActiveCategory(state);
+  const user = getActiveUser(state) || {};
+  const teamCompletedTasks = getTeamCompletedTasks(state, user.team) || [];
+  const activeUserId = getActiveUserId(state);
+  const filter = getTasksFilter(state);
+
   return {
-    tasks: getTasksForActiveCategory(state),
-    user: getActiveUser(state) || {},
-    activeUserId: getActiveUserId(state),
-    filter: getTasksFilter(state)
+    tasks,
+    user,
+    teamCompletedTasks,
+    activeUserId,
+    filter
   };
 };
 
-const Tasks = connect(mapStateToProps, mapDispatchToProps)(TasksPage);
+const Tasks = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TasksPage);
 
 export default Tasks;

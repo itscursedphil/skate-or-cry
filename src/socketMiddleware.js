@@ -21,6 +21,7 @@ const socketMiddleware = () => {
 
       socket = new WebSocket(
         "ws://skate-or-cry.northeurope.cloudapp.azure.com/"
+        // "ws://192.168.178.41:80"
       );
       socket.onopen = e => console.log(e);
       socket.onmessage = e => transformMessageToAction(e);
@@ -44,10 +45,10 @@ const socketMiddleware = () => {
     };
 
     const setInitialState = () => {
-      if (process.env.NODE_ENV === "development") {
-        console.log("Set initial state");
-        console.log(action);
-      }
+      // if (process.env.NODE_ENV === "development") {
+      //   console.log("Set initial state");
+      //   console.log(action);
+      // }
 
       const {
         transactions,
@@ -73,11 +74,11 @@ const socketMiddleware = () => {
     const transformMessageToAction = e => {
       const data = JSON.parse(e.data);
 
-      if (process.env.NODE_ENV === "development") {
-        console.log("Transforming action");
-        console.log("Event:", e);
-        console.log("Data:", data);
-      }
+      // if (process.env.NODE_ENV === "development") {
+      //   console.log("Transforming action");
+      //   console.log("Event:", e);
+      //   console.log("Data:", data);
+      // }
 
       if (data.meta.success) {
         dispatch({
