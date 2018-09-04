@@ -228,6 +228,9 @@ class TasksPage extends Component {
                         disabled={
                           !!teamCompletedTasks.find(
                             teamTask => teamTask.id === task.id
+                          ) &&
+                          !user.completedTasks.find(
+                            userTaskId => userTaskId === taskId
                           )
                         }
                       />
