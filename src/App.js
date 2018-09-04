@@ -1,22 +1,22 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Layout from './layout/layout';
-import Home from './home/home';
-import Users from './users/users';
-import Categories from './categories/categories';
-import Tasks from './tasks/tasks';
-import Results from './results/results';
-import Transactions from './transactions/transactions';
-import TransactionAdd from './transactions/transactionAdd';
-import TransactionSingle from './transactions/transactionSingle';
-import Roulette from './roulette/roulette';
-import Achievements from './achievements/achievements';
-import Login from './login/login';
-import Logout from './logout/logout';
-import PrivateRoute from './privateRoute/privateRoute';
-import { todayIsWhileTrip } from './utils';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Layout from "./layout/layout";
+import Home from "./home/home";
+import Users from "./users/users";
+import Categories from "./categories/categories";
+import Tasks from "./tasks/tasks";
+import Results from "./results/results";
+import Transactions from "./transactions/transactions";
+import TransactionAdd from "./transactions/transactionAdd";
+import TransactionSingle from "./transactions/transactionSingle";
+import Roulette from "./roulette/roulette";
+import Achievements from "./achievements/achievements";
+import Login from "./login/login";
+import Logout from "./logout/logout";
+import PrivateRoute from "./privateRoute/privateRoute";
+import { todayIsWhileTrip } from "./utils";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import getMuiTheme from "material-ui/styles/getMuiTheme";
 import {
   cyan500,
   cyan700,
@@ -30,8 +30,8 @@ import {
   darkBlack,
   fullBlack,
   tealA400
-} from 'material-ui/styles/colors';
-import { fade } from 'material-ui/utils/colorManipulator';
+} from "material-ui/styles/colors";
+import { fade } from "material-ui/utils/colorManipulator";
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -55,7 +55,7 @@ const muiTheme = getMuiTheme({
   }
 });
 
-const App = props =>
+const App = props => (
   <MuiThemeProvider muiTheme={muiTheme}>
     <Router>
       <Layout>
@@ -68,8 +68,6 @@ const App = props =>
           <PrivateRoute path="/tasks" component={Tasks} />
           <PrivateRoute path="/roulette" component={Roulette} />
           <PrivateRoute path="/achievements" component={Achievements} />
-          {todayIsWhileTrip() &&
-            <PrivateRoute path="/results" component={Results} />}
           <Switch>
             <PrivateRoute exact path="/transactions" component={Transactions} />
             <PrivateRoute
@@ -82,9 +80,13 @@ const App = props =>
               component={TransactionSingle}
             />
           </Switch>
+          {!todayIsWhileTrip() && (
+            <PrivateRoute path="/results" component={Results} />
+          )}
         </Switch>
       </Layout>
     </Router>
-  </MuiThemeProvider>;
+  </MuiThemeProvider>
+);
 
 export default App;
