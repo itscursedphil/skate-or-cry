@@ -27,8 +27,8 @@ let store = createStore(
 );
 
 fetch(
-  "http://192.168.178.41:80/api/session",
-  // "/api/session",
+  // "http://192.168.178.41:80/api/session",
+  "/api/session",
   {
     method: "get",
     credentials: "include",
