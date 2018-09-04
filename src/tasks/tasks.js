@@ -230,7 +230,7 @@ class TasksPage extends Component {
                             teamTask => teamTask.id === task.id
                           ) &&
                           !user.completedTasks.find(
-                            userTaskId => userTaskId === task.id
+                            userTask => userTask.id === task.id
                           )
                         }
                       />
