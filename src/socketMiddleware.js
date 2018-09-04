@@ -1,25 +1,27 @@
 import {
   LOGIN_USER_SUCCESS,
   LOGOUT_USER
-} from './authentication/authenticationActions';
-import { addTransaction } from './transactions/transactionsActions';
-import { addCategory } from './categories/categoriesActions';
-import { addUser } from './users/usersActions';
-import { addTask } from './tasks/tasksActions';
-import { addAchievement } from './achievements/achievementsActions';
-import { updateTimestamp } from './roulette/rouletteActions';
-import { SET_INITIAL_STATE } from './actions';
-import { loginUserSuccess } from './authentication/authenticationActions';
+} from "./authentication/authenticationActions";
+import { addTransaction } from "./transactions/transactionsActions";
+import { addCategory } from "./categories/categoriesActions";
+import { addUser } from "./users/usersActions";
+import { addTask } from "./tasks/tasksActions";
+import { addAchievement } from "./achievements/achievementsActions";
+import { updateTimestamp } from "./roulette/rouletteActions";
+import { SET_INITIAL_STATE } from "./actions";
+import { loginUserSuccess } from "./authentication/authenticationActions";
 
 const socketMiddleware = () => {
   let socket;
 
   return ({ dispatch }) => next => action => {
     const initialize = () => {
-      if (process.env.NODE_ENV === 'development')
-        console.log('Creating socket connection');
+      if (process.env.NODE_ENV === "development")
+        console.log("Creating socket connection");
 
-      socket = new WebSocket('ws://martingawlita.dyndns.org/');
+      socket = new WebSocket(
+        "ws://skate-or-cry.northeurope.cloudapp.azure.com/"
+      );
       socket.onopen = e => console.log(e);
       socket.onmessage = e => transformMessageToAction(e);
 
@@ -42,8 +44,8 @@ const socketMiddleware = () => {
     };
 
     const setInitialState = () => {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Set initial state');
+      if (process.env.NODE_ENV === "development") {
+        console.log("Set initial state");
         console.log(action);
       }
 
@@ -57,18 +59,7 @@ const socketMiddleware = () => {
       } = action.payload;
       transactions.map(transaction => dispatch(addTransaction(transaction)));
       categories.map(category => dispatch(addCategory(category)));
-      users.map(user => {
-        if (user.name === 'Philip Plagge') {
-          return dispatch(
-            addUser({
-              ...user,
-              nickname: 'Schlong'
-            })
-          );
-        } else {
-          return dispatch(addUser(user));
-        }
-      });
+      users.map(user => dispatch(addUser(user)));
       tasks.map(task => dispatch(addTask(task)));
       achievements.map(achievement => dispatch(addAchievement(achievement)));
       dispatch(updateTimestamp(roulette.timestamp));
@@ -82,10 +73,10 @@ const socketMiddleware = () => {
     const transformMessageToAction = e => {
       const data = JSON.parse(e.data);
 
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Transforming action');
-        console.log('Event:', e);
-        console.log('Data:', data);
+      if (process.env.NODE_ENV === "development") {
+        console.log("Transforming action");
+        console.log("Event:", e);
+        console.log("Data:", data);
       }
 
       if (data.meta.success) {
@@ -102,9 +93,9 @@ const socketMiddleware = () => {
       return setInitialState();
     } else if (action.type === LOGOUT_USER) {
       return close();
-    } else if (action.meta && action.meta.sender === 'client') {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Dispatching to server');
+    } else if (action.meta && action.meta.sender === "client") {
+      if (process.env.NODE_ENV === "development") {
+        console.log("Dispatching to server");
         console.log(action);
       }
 

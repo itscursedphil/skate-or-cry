@@ -1,5 +1,4 @@
-import API from '../api.json';
-import { SET_TASKS_FILTER, ADD_TASK } from './tasksActions';
+import { SET_TASKS_FILTER, ADD_TASK } from "./tasksActions";
 
 // const initialState = {
 //   all: API.tasks,
@@ -8,7 +7,7 @@ import { SET_TASKS_FILTER, ADD_TASK } from './tasksActions';
 
 const initialState = {
   all: [],
-  filter: 'all'
+  filter: "all"
 };
 
 const tasks = (state = initialState, action) => {

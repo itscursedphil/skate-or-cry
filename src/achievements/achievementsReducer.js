@@ -1,5 +1,4 @@
-import API from '../api.json';
-import { UPDATE_ACHIEVEMENTS, ADD_ACHIEVEMENT } from './achievementsActions';
+import { UPDATE_ACHIEVEMENTS, ADD_ACHIEVEMENT } from "./achievementsActions";
 
 // const initialState = [...API.achievements].sort((a, b) => a.id - b.id);
 const initialState = [];

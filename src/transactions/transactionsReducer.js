@@ -2,8 +2,7 @@ import {
   SET_TRANSACTIONS_FILTER,
   ADD_TRANSACTION,
   DELETE_TRANSACTION
-} from './transactionsActions';
-import API from '../api.json';
+} from "./transactionsActions";
 
 // const initialState = {
 //   all: API.transactions,
@@ -12,7 +11,7 @@ import API from '../api.json';
 
 const initialState = {
   all: [],
-  filter: 'all'
+  filter: "all"
 };
 
 const transactions = (state = initialState, action) => {

@@ -1,5 +1,4 @@
-import { SELECT_CATEGORY, ADD_CATEGORY } from './categoriesActions';
-import API from '../api.json';
+import { SELECT_CATEGORY, ADD_CATEGORY } from "./categoriesActions";
 
 // const initialState = {
 //   all: API.categories,

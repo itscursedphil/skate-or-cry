@@ -8,8 +8,7 @@ import {
   SET_USER_DAILY_TASK,
   SET_USER_DAILY_TASK_COMPLETED,
   SET_USER_DAILY_TASK_UNCOMPLETED
-} from './usersActions';
-import API from '../api.json';
+} from "./usersActions";
 
 // const initialState = {
 //   all: API.users.sort((nameA, nameB) => {
